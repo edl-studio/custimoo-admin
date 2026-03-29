@@ -29,11 +29,11 @@
     DataTableColumnHeader,
     TabViewItem,
     ViewPopover,
-    FilterSelectionInput
+    FilterSelectionInput,
+    TextInput
   } from '@/components/admin'
   import type { ColumnItem } from '@/components/admin'
   import { Button } from '@/components/ui/button'
-  import { Input } from '@/components/ui/input'
   import { Checkbox } from '@/components/ui/checkbox'
   import { Avatar, AvatarFallback } from '@/components/ui/avatar'
   import { useOrders } from '@/composables/useOrders'
@@ -388,10 +388,11 @@
     <!-- Page header -->
     <PageHeader title="Orders">
       <template #actions>
-        <div class="relative">
-          <Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#726159]" />
-          <Input placeholder="Search..." class="w-56 pl-9" />
-        </div>
+        <TextInput v-model="searchQuery" placeholder="Search" class="w-56">
+          <template #icon>
+            <Search class="size-4 text-muted-foreground" />
+          </template>
+        </TextInput>
         <Button variant="outline">
           <Download class="size-4" />
           Export order data
