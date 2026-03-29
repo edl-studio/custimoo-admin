@@ -8,10 +8,11 @@ export { default as PageHeader } from './PageHeader.vue'
 export { default as SidebarNav } from './SidebarNav.vue'
 export type { NavItem, NavSection } from './SidebarNav.vue'
 export { default as StatCard } from './StatCard.vue'
+export { default as TextInput } from './TextInput.vue'
 export { default as ToggleText } from './ToggleText.vue'
 export {
   DataTable,
   DataTableColumnHeader,
   DataTablePagination,
-  DataTableToolbar,
+  DataTableToolbar
 } from './data-table'
