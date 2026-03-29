@@ -1,4 +1,5 @@
 export { default as AdminLayout } from './AdminLayout.vue'
+export { default as FilterSelectionInput } from './FilterSelectionInput.vue'
 export { default as CustimooLogo } from './CustimooLogo.vue'
 export { default as CustimooLogoMark } from './CustimooLogoMark.vue'
 export { default as SidebarButton } from './SidebarButton.vue'
@@ -12,5 +13,5 @@ export {
   DataTable,
   DataTableColumnHeader,
   DataTablePagination,
-  DataTableToolbar,
+  DataTableToolbar
 } from './data-table'

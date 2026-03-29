@@ -16,10 +16,7 @@
     role="button"
     tabindex="0"
     :class="
-      cn(
-        'relative flex h-12 flex-col items-start justify-center py-2',
-        props.class
-      )
+      cn('relative flex h-12 cursor-pointer flex-col items-start justify-center py-2', props.class)
     "
   >
     <div
@@ -61,9 +58,6 @@
     </div>
 
     <!-- Active underline -->
-    <span
-      v-if="active"
-      class="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-primary"
-    />
+    <span v-if="active" class="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-primary" />
   </div>
 </template>

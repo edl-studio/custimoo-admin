@@ -56,6 +56,7 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
@@ -99,64 +100,65 @@
   --radius: 0.625rem;
 
   /* Surfaces */
-  --background: oklch(0.965 0.007 80.7);        /* #F6F3EE — admin/colors/background (beige-50) */
-  --card: oklch(1.000 0 0);                      /* #FFFFFF — admin/colors/card */
-  --card-foreground: oklch(0.214 0.009 43.0);    /* #1D1816 — admin/colors/content/primary */
-  --popover: oklch(1.000 0 0);                   /* #FFFFFF — admin/colors/popover */
-  --popover-foreground: oklch(0.214 0.009 43.0); /* #1D1816 — admin/colors/content/primary */
+  --background: oklch(0.965 0.007 80.7); /* #F6F3EE — admin/colors/background (beige-50) */
+  --card: oklch(1 0 0); /* #FFFFFF — admin/colors/card */
+  --card-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
+  --popover: oklch(1 0 0); /* #FFFFFF — admin/colors/popover */
+  --popover-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
 
   /* Text */
-  --foreground: oklch(0.214 0.009 43.0);         /* #1D1816 — admin/colors/content/primary */
-  --foreground-secondary: oklch(0.417 0.020 46.2); /* #564943 — admin/colors/content/secondary */
+  --foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
+  --foreground-secondary: oklch(0.417 0.02 46.2); /* #564943 — admin/colors/content/secondary */
   --foreground-tertiary: oklch(0.507 0.025 46.7); /* #726159 — admin/colors/content/tertiary */
 
   /* Primary (teal) */
-  --primary: oklch(0.656 0.117 178.7);           /* #14A892 — global/accent */
-  --primary-foreground: oklch(1.000 0 0);        /* #FFFFFF */
-  --primary-hover: oklch(0.524 0.092 179.1);     /* #0E7B6A — global/accent-strong */
+  --primary: oklch(0.656 0.117 178.7); /* #14A892 — global/accent */
+  --primary-foreground: oklch(1 0 0); /* #FFFFFF */
+  --primary-hover: oklch(0.524 0.092 179.1); /* #0E7B6A — global/accent-strong */
 
   /* Secondary (controls surface) */
-  --secondary: oklch(0.965 0.007 80.7);          /* #F6F3EE — admin/colors/controls */
-  --secondary-foreground: oklch(0.214 0.009 43.0); /* #1D1816 — admin/colors/content/primary */
+  --secondary: oklch(0.965 0.007 80.7); /* #F6F3EE — admin/colors/controls */
+  --secondary-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
 
   /* Muted */
-  --muted: oklch(0.937 0.012 75.3);             /* #EFE9E1 — admin/colors/controls-hover */
-  --muted-foreground: oklch(0.507 0.025 46.7);  /* #726159 — admin/colors/content/tertiary */
+  --muted: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/controls-hover */
+  --muted-foreground: oklch(0.507 0.025 46.7); /* #726159 — admin/colors/content/tertiary */
 
   /* Accent (hover surfaces) */
-  --accent: oklch(0.937 0.012 75.3);            /* #EFE9E1 — admin/colors/controls-hover */
-  --accent-foreground: oklch(0.214 0.009 43.0); /* #1D1816 — admin/colors/content/primary */
+  --accent: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/controls-hover */
+  --accent-strong: oklch(0.9 0.015 72); /* #E4DCD3 — stronger hover surface */
+  --accent-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
 
   /* Destructive */
-  --destructive: oklch(0.577 0.215 27.3);       /* #DC2626 — admin/colors/content/danger */
-  --destructive-foreground: oklch(1.000 0 0);   /* #FFFFFF */
+  --destructive: oklch(0.577 0.215 27.3); /* #DC2626 — admin/colors/content/danger */
+  --destructive-foreground: oklch(1 0 0); /* #FFFFFF */
 
   /* Borders */
-  --border: oklch(0.924 0.017 79.3);            /* #ECE5DA — admin/colors/border (beige-200) */
-  --border-strong: oklch(0.867 0.019 67.5);     /* #DCD1C6 — admin/colors/border-strong (beige-300) */
-  --input: oklch(0.924 0.017 79.3);             /* #ECE5DA — admin/colors/border */
+  --border: oklch(0.924 0.017 79.3); /* #ECE5DA — admin/colors/border (beige-200) */
+  --border-strong: oklch(0.867 0.019 67.5); /* #DCD1C6 — admin/colors/border-strong (beige-300) */
+  --input: oklch(0.924 0.017 79.3); /* #ECE5DA — admin/colors/border */
 
   /* Interactive states */
-  --ring: oklch(0.656 0.117 178.7 / 0.5);      /* #14A892 at 50% — focus ring */
-  --overlay: oklch(0.214 0.009 43.0 / 0.8);    /* beige-950 at 80% */
-  --disabled: oklch(0.937 0.012 75.3);          /* #EFE9E1 — admin/colors/disabled */
+  --ring: oklch(0.656 0.117 178.7 / 0.5); /* #14A892 at 50% — focus ring */
+  --overlay: oklch(0.214 0.009 43 / 0.8); /* beige-950 at 80% */
+  --disabled: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/disabled */
 
   /* Chart / data visualization */
-  --chart-1: oklch(0.646 0.194 41.1);           /* #EA580C */
-  --chart-2: oklch(0.600 0.104 184.7);          /* #0D9488 */
-  --chart-3: oklch(0.398 0.066 227.4);          /* #164E63 */
-  --chart-4: oklch(0.837 0.164 84.4);           /* #FBBF24 */
-  --chart-5: oklch(0.769 0.165 70.1);           /* #F59E0B */
+  --chart-1: oklch(0.646 0.194 41.1); /* #EA580C */
+  --chart-2: oklch(0.6 0.104 184.7); /* #0D9488 */
+  --chart-3: oklch(0.398 0.066 227.4); /* #164E63 */
+  --chart-4: oklch(0.837 0.164 84.4); /* #FBBF24 */
+  --chart-5: oklch(0.769 0.165 70.1); /* #F59E0B */
 
   /* Sidebar */
-  --sidebar: oklch(0.965 0.007 80.7);           /* #F6F3EE — same as background */
-  --sidebar-foreground: oklch(0.214 0.009 43.0); /* #1D1816 */
-  --sidebar-primary: oklch(0.656 0.117 178.7);  /* #14A892 — teal for active icon */
-  --sidebar-primary-foreground: oklch(1.000 0 0); /* #FFFFFF */
-  --sidebar-accent: oklch(0.937 0.012 75.3);    /* #EFE9E1 — hover surface */
-  --sidebar-accent-foreground: oklch(0.214 0.009 43.0); /* #1D1816 */
-  --sidebar-border: oklch(0.924 0.017 79.3);    /* #ECE5DA */
-  --sidebar-ring: oklch(0.507 0.025 46.7);      /* #726159 */
+  --sidebar: oklch(0.965 0.007 80.7); /* #F6F3EE — same as background */
+  --sidebar-foreground: oklch(0.214 0.009 43); /* #1D1816 */
+  --sidebar-primary: oklch(0.656 0.117 178.7); /* #14A892 — teal for active icon */
+  --sidebar-primary-foreground: oklch(1 0 0); /* #FFFFFF */
+  --sidebar-accent: oklch(0.937 0.012 75.3); /* #EFE9E1 — hover surface */
+  --sidebar-accent-foreground: oklch(0.214 0.009 43); /* #1D1816 */
+  --sidebar-border: oklch(0.924 0.017 79.3); /* #ECE5DA */
+  --sidebar-ring: oklch(0.507 0.025 46.7); /* #726159 */
 }
 
 @layer base {
