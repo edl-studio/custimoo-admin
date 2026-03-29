@@ -23,6 +23,7 @@
     User
   } from 'lucide-vue-next'
   import {
+    ColumnPopover,
     PageHeader,
     DataTable,
     DataTableColumnHeader,
@@ -30,6 +31,7 @@
     ViewPopover,
     FilterSelectionInput
   } from '@/components/admin'
+  import type { ColumnItem } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Input } from '@/components/ui/input'
   import { Checkbox } from '@/components/ui/checkbox'
@@ -77,6 +79,33 @@
   ]
 
   const activeFilters = ref<Record<string, string | null>>({})
+
+  // Column visibility / ordering for ColumnPopover
+  const columnItems: ColumnItem[] = [
+    { id: 'orderId', label: 'Order ID' },
+    { id: 'merchant', label: 'Merchant' },
+    { id: 'customer', label: 'Customer' },
+    { id: 'qty', label: 'Quantity' },
+    { id: 'stage', label: 'Stage' },
+    { id: 'currentStep', label: 'Current Step' },
+    { id: 'sinceAction', label: 'Since action' },
+    { id: 'factory', label: 'Factory' },
+    { id: 'orderDate', label: 'Order date' },
+    { id: 'dueDate', label: 'Due date' },
+    { id: 'estShipping', label: 'Est. Shipping' },
+    { id: 'reference', label: 'Reference' },
+    { id: 'invoiceStatus', label: 'Invoice status' },
+    { id: 'administrator', label: 'Administrator' },
+    { id: 'comments', label: 'Comments' }
+  ]
+  const defaultColumnIds = columnItems.map(c => c.id)
+  const visibleColumnIds = ref([...defaultColumnIds])
+  const columnOrder = ref([...defaultColumnIds])
+
+  function restoreDefaultColumns() {
+    visibleColumnIds.value = [...defaultColumnIds]
+    columnOrder.value = [...defaultColumnIds]
+  }
 
   function handleFilterClick(key: string) {
     // Toggle filter selection (placeholder — real implementation would open a popover)
@@ -440,7 +469,14 @@
       </div>
       <div class="flex shrink-0 items-center gap-3">
         <span class="text-sm text-foreground-tertiary">{{ filteredOrders.length }} orders</span>
-        <FilterSelectionInput label="Columns" :icon="Columns3" />
+        <ColumnPopover
+          :columns="columnItems"
+          v-model:visible-ids="visibleColumnIds"
+          v-model:order="columnOrder"
+          @restore-default="restoreDefaultColumns"
+        >
+          <FilterSelectionInput label="Columns" :icon="Columns3" />
+        </ColumnPopover>
       </div>
     </div>
 
