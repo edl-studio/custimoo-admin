@@ -16,10 +16,7 @@
     role="button"
     tabindex="0"
     :class="
-      cn(
-        'relative flex h-12 flex-col items-start justify-center py-2',
-        props.class
-      )
+      cn('relative flex h-12 cursor-pointer flex-col items-start justify-center py-2', props.class)
     "
   >
     <div

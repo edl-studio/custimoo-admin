@@ -22,10 +22,7 @@
 </script>
 
 <template>
-  <Label
-    data-slot="toggle-text"
-    :class="cn('flex items-center gap-2', props.class)"
-  >
+  <Label data-slot="toggle-text" :class="cn('flex items-center gap-2', props.class)">
     <Switch v-bind="forwarded" />
     <span class="text-xs leading-4 font-medium text-foreground">
       <slot>{{ label }}</slot>

@@ -2,16 +2,34 @@
   import { computed, h, ref } from 'vue'
   import { useRouter } from 'vue-router'
   import type { ColumnDef } from '@tanstack/vue-table'
+  import type { Component } from 'vue'
   import {
-    ChevronDown,
+    Building2,
+    Calendar,
+    CalendarClock,
+    CircleDot,
+    Columns3,
     Download,
+    Flag,
+    Layers,
+    LayoutGrid,
     MessageSquare,
     PenLine,
     Plus,
+    FileText,
     Search,
-    Columns3
+    ShieldCheck,
+    Tag,
+    User
   } from 'lucide-vue-next'
-  import { PageHeader, DataTable, DataTableColumnHeader, TabViewItem, ViewPopover } from '@/components/admin'
+  import {
+    PageHeader,
+    DataTable,
+    DataTableColumnHeader,
+    TabViewItem,
+    ViewPopover,
+    FilterSelectionInput
+  } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Input } from '@/components/ui/input'
   import { Checkbox } from '@/components/ui/checkbox'
@@ -30,7 +48,7 @@
     if (!searchQuery.value) return orders.value
     const q = searchQuery.value.toLowerCase()
     return orders.value.filter(
-      (o) =>
+      o =>
         o.orderId.toLowerCase().includes(q) ||
         o.merchant.toLowerCase().includes(q) ||
         o.customer.toLowerCase().includes(q) ||
@@ -38,19 +56,45 @@
     )
   })
 
-  const filterChips = [
-    'Group',
-    'Status',
-    'Stage',
-    'Invoice status',
-    'Order creation',
-    'Due date',
-    'Role',
-    'Customer',
-    'Merchant',
-    'Order type',
-    'Flag'
+  interface FilterDef {
+    key: string
+    label: string
+    icon: Component
+  }
+
+  const filters: FilterDef[] = [
+    { key: 'group', label: 'Group', icon: LayoutGrid },
+    { key: 'status', label: 'Status', icon: CircleDot },
+    { key: 'stage', label: 'Stage', icon: Layers },
+    { key: 'invoiceStatus', label: 'Invoice status', icon: FileText },
+    { key: 'orderCreation', label: 'Order creation', icon: Calendar },
+    { key: 'dueDate', label: 'Due date', icon: CalendarClock },
+    { key: 'role', label: 'Role', icon: ShieldCheck },
+    { key: 'customer', label: 'Customer', icon: User },
+    { key: 'merchant', label: 'Merchant', icon: Building2 },
+    { key: 'orderType', label: 'Order type', icon: Tag },
+    { key: 'flag', label: 'Flag', icon: Flag }
   ]
+
+  const activeFilters = ref<Record<string, string | null>>({})
+
+  function handleFilterClick(key: string) {
+    // Toggle filter selection (placeholder — real implementation would open a popover)
+    if (activeFilters.value[key]) return
+    activeFilters.value[key] = null
+  }
+
+  function handleFilterClear(key: string) {
+    delete activeFilters.value[key]
+  }
+
+  function isFilterSelected(key: string): boolean {
+    return key in activeFilters.value
+  }
+
+  function getFilterValue(key: string): string | undefined {
+    return activeFilters.value[key] ?? undefined
+  }
 
   function getStageBadgeClass(stage: OrderStage): string {
     switch (stage) {
@@ -110,7 +154,7 @@
   function getInitials(name: string): string {
     return name
       .split(' ')
-      .map((n) => n[0])
+      .map(n => n[0])
       .join('')
       .toUpperCase()
       .slice(0, 2)
@@ -143,11 +187,9 @@
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order ID' }),
       cell: ({ row }) => {
         const order = row.original
-        const children = [
-          h('span', { class: 'font-medium text-[#1D1816]' }, order.orderId)
-        ]
+        const children = [h('span', { class: 'font-medium text-[#1D1816]' }, order.orderId)]
         if (order.flags?.length) {
-          order.flags.forEach((flag) => {
+          order.flags.forEach(flag => {
             children.push(
               h(
                 'span',
@@ -169,14 +211,12 @@
     {
       accessorKey: 'merchant',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Merchant' }),
-      cell: ({ row }) =>
-        h('span', { class: 'text-[#564943]' }, row.getValue('merchant') as string)
+      cell: ({ row }) => h('span', { class: 'text-[#564943]' }, row.getValue('merchant') as string)
     },
     {
       accessorKey: 'customer',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Customer' }),
-      cell: ({ row }) =>
-        h('span', { class: 'text-[#564943]' }, row.getValue('customer') as string)
+      cell: ({ row }) => h('span', { class: 'text-[#564943]' }, row.getValue('customer') as string)
     },
     {
       accessorKey: 'qty',
@@ -206,21 +246,13 @@
       accessorKey: 'currentStep',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Current Step' }),
       cell: ({ row }) =>
-        h(
-          'span',
-          { class: 'text-[#564943] text-xs' },
-          row.getValue('currentStep') as string
-        )
+        h('span', { class: 'text-[#564943] text-xs' }, row.getValue('currentStep') as string)
     },
     {
       accessorKey: 'sinceAction',
       header: 'Since Action',
       cell: ({ row }) =>
-        h(
-          'span',
-          { class: 'text-[#726159] text-xs' },
-          row.getValue('sinceAction') as string
-        ),
+        h('span', { class: 'text-[#726159] text-xs' }, row.getValue('sinceAction') as string),
       size: 100
     },
     {
@@ -248,11 +280,7 @@
         if (isToday(dateStr)) {
           return h('span', { class: 'text-red-600 text-xs font-medium' }, 'Today')
         }
-        return h(
-          'span',
-          { class: 'text-[#726159] text-xs whitespace-nowrap' },
-          formatDate(dateStr)
-        )
+        return h('span', { class: 'text-[#726159] text-xs whitespace-nowrap' }, formatDate(dateStr))
       },
       size: 100
     },
@@ -350,10 +378,7 @@
     <div class="flex h-12 items-center border-b border-border px-2">
       <!-- Tab group -->
       <div class="flex items-center gap-1">
-        <TabViewItem
-          :active="activeTab === 'all'"
-          @click="activeTab = 'all'"
-        >
+        <TabViewItem :active="activeTab === 'all'" @click="activeTab = 'all'">
           All orders
           <span class="ml-1 text-xs text-foreground-tertiary">{{ orders.length }}</span>
         </TabViewItem>
@@ -365,12 +390,9 @@
         >
           Invoice dashboard
           <template #edit>
-            <ViewPopover
-              view-name="Invoice dashboard"
-              color="#6366f1"
-            >
-              <button type="button">
-                <PenLine class="size-3.5 text-foreground-tertiary" />
+            <ViewPopover view-name="Invoice dashboard" color="#6366f1">
+              <button type="button" class="cursor-pointer">
+                <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
               </button>
             </ViewPopover>
           </template>
@@ -383,12 +405,9 @@
         >
           Mark to factory
           <template #edit>
-            <ViewPopover
-              view-name="Mark to factory"
-              color="#ef4444"
-            >
-              <button type="button">
-                <PenLine class="size-3.5 text-foreground-tertiary" />
+            <ViewPopover view-name="Mark to factory" color="#ef4444">
+              <button type="button" class="cursor-pointer">
+                <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
               </button>
             </ViewPopover>
           </template>
@@ -405,33 +424,27 @@
     </div>
 
     <!-- Filter bar -->
-    <div class="flex items-center justify-between gap-3 py-3">
+    <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
       <div class="flex flex-wrap items-center gap-2">
-        <button
-          v-for="chip in filterChips"
-          :key="chip"
-          class="flex items-center gap-1.5 rounded-full border border-[#ECE5DA] px-3 py-1 text-sm text-[#564943] transition-colors hover:bg-[#EFE9E1]"
-        >
-          {{ chip }}
-          <ChevronDown class="size-3.5" />
-        </button>
+        <FilterSelectionInput
+          v-for="filter in filters"
+          :key="filter.key"
+          :label="filter.label"
+          :icon="filter.icon"
+          :selected="isFilterSelected(filter.key)"
+          :value="getFilterValue(filter.key)"
+          :type="isFilterSelected(filter.key) ? 'chip' : 'dropdown'"
+          @click="handleFilterClick(filter.key)"
+          @clear="handleFilterClear(filter.key)"
+        />
       </div>
       <div class="flex shrink-0 items-center gap-3">
-        <span class="text-sm text-[#726159]">{{ filteredOrders.length }} orders</span>
-        <button
-          class="flex items-center gap-1.5 rounded-full border border-[#ECE5DA] px-3 py-1 text-sm text-[#564943] transition-colors hover:bg-[#EFE9E1]"
-        >
-          <Columns3 class="size-3.5" />
-          Columns
-        </button>
+        <span class="text-sm text-foreground-tertiary">{{ filteredOrders.length }} orders</span>
+        <FilterSelectionInput label="Columns" :icon="Columns3" />
       </div>
     </div>
 
     <!-- Orders table -->
-    <DataTable
-      :columns="columns as any"
-      :data="filteredOrders"
-      @row-click="handleRowClick"
-    />
+    <DataTable :columns="columns as any" :data="filteredOrders" @row-click="handleRowClick" />
   </div>
 </template>
