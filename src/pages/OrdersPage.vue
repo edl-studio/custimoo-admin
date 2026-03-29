@@ -388,7 +388,7 @@
     <!-- Page header -->
     <PageHeader title="Orders">
       <template #actions>
-        <TextInput v-model="searchQuery" placeholder="Search" class="w-56">
+        <TextInput v-model="searchQuery" placeholder="Search" size="compact" class="w-56">
           <template #icon>
             <Search class="size-4 text-muted-foreground" />
           </template>
