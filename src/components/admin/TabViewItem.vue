@@ -58,6 +58,11 @@
     </div>
 
     <!-- Active underline -->
-    <span v-if="active" class="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-primary" />
+    <span
+      v-if="active"
+      class="absolute inset-x-3 bottom-0 h-0.5 rounded-full"
+      :class="indicatorColor ? '' : 'bg-primary'"
+      :style="indicatorColor ? { backgroundColor: indicatorColor } : undefined"
+    />
   </div>
 </template>
