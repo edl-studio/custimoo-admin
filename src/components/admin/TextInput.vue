@@ -63,12 +63,12 @@
         :aria-describedby="error ? `${id}-error` : undefined"
         :class="
           cn(
-            'flex w-full min-w-0 rounded-md border bg-input text-foreground transition-[color,box-shadow] outline-none',
+            'flex w-full min-w-0 rounded-md border bg-background text-foreground shadow-xs transition-[color,box-shadow] outline-none',
             'placeholder:text-muted-foreground',
-            'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-            'aria-invalid:border-destructive aria-invalid:ring-destructive/20',
-            'aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-destructive/20',
-            'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-disabled disabled:text-muted-foreground disabled:border-transparent',
+            'focus-visible:ring-ring focus-visible:ring-2',
+            'aria-invalid:border-destructive aria-invalid:ring-destructive/50',
+            'aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-destructive/50',
+            'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-disabled disabled:text-foreground/40 disabled:border-transparent disabled:shadow-none',
             size === 'lg' ? 'h-11 px-3.5 text-base' : 'h-9 px-3 text-sm',
             $slots.icon && (size === 'lg' ? 'pl-10' : 'pl-9')
           )
