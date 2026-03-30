@@ -149,7 +149,7 @@
         }),
       enableSorting: false,
       enableHiding: false,
-      size: 32,
+      size: 44,
       meta: { cellWidth: 44 }
     },
     {
