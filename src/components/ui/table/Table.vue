@@ -9,7 +9,9 @@
 
 <template>
   <div class="relative w-full overflow-auto">
-    <table :class="cn('w-full caption-bottom text-sm', props.class)">
+    <table
+      :class="cn('w-full caption-bottom border-separate border-spacing-0 text-sm', props.class)"
+    >
       <slot />
     </table>
   </div>

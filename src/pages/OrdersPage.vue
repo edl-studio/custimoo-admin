@@ -369,7 +369,12 @@
 
     <!-- Orders table -->
     <div class="p-6">
-      <DataTable :columns="columns as any" :data="filteredOrders" @row-click="handleRowClick" />
+      <DataTable
+        :columns="columns as any"
+        :data="filteredOrders"
+        :pinned-columns="['select', 'orderId']"
+        @row-click="handleRowClick"
+      />
     </div>
   </div>
 </template>

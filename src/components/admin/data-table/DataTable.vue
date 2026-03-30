@@ -1,7 +1,12 @@
 <script setup lang="ts" generic="TData, TValue">
-  import type { ColumnDef, SortingState, ColumnFiltersState } from '@tanstack/vue-table'
+  import type {
+    ColumnDef,
+    ColumnPinningState,
+    SortingState,
+    ColumnFiltersState
+  } from '@tanstack/vue-table'
   import type { HTMLAttributes } from 'vue'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import {
     FlexRender,
     getCoreRowModel,
@@ -21,16 +26,31 @@
   import { cn } from '@/lib/utils'
   import DataTablePagination from './DataTablePagination.vue'
 
-  const props = defineProps<{
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
-    showPagination?: boolean
-    class?: HTMLAttributes['class']
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      columns: ColumnDef<TData, TValue>[]
+      data: TData[]
+      showPagination?: boolean
+      pinnedColumns?: string[]
+      class?: HTMLAttributes['class']
+    }>(),
+    {
+      pinnedColumns: () => []
+    }
+  )
 
   const sorting = ref<SortingState>([])
   const columnFilters = ref<ColumnFiltersState>([])
   const globalFilter = ref('')
+  const columnPinning = ref<ColumnPinningState>({
+    left: [],
+    right: []
+  })
+
+  const initialColumnPinning = computed<ColumnPinningState>(() => ({
+    left: props.pinnedColumns,
+    right: []
+  }))
 
   const table = useVueTable({
     get data() {
@@ -48,6 +68,9 @@
       },
       get globalFilter() {
         return globalFilter.value
+      },
+      get columnPinning() {
+        return columnPinning.value.left?.length ? columnPinning.value : initialColumnPinning.value
       }
     },
     onSortingChange: updaterOrValue => {
@@ -62,6 +85,10 @@
       globalFilter.value =
         typeof updaterOrValue === 'function' ? updaterOrValue(globalFilter.value) : updaterOrValue
     },
+    onColumnPinningChange: updaterOrValue => {
+      columnPinning.value =
+        typeof updaterOrValue === 'function' ? updaterOrValue(columnPinning.value) : updaterOrValue
+    },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -73,24 +100,52 @@
   }>()
 
   defineExpose({ table })
+
+  function getPinningStyles(columnId: string) {
+    const column = table.getColumn(columnId)
+    if (!column) return {}
+    const isPinned = column.getIsPinned()
+    if (!isPinned) return {}
+    return {
+      position: 'sticky' as const,
+      left: `${column.getStart('left')}px`,
+      zIndex: 1
+    }
+  }
+
+  function getPinningClasses(columnId: string) {
+    const column = table.getColumn(columnId)
+    if (!column) return ''
+    const isPinned = column.getIsPinned()
+    if (!isPinned) return ''
+
+    const allPinned = table.getState().columnPinning.left ?? []
+    const isLastPinned = allPinned[allPinned.length - 1] === columnId
+
+    return cn(isLastPinned && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.08)]')
+  }
 </script>
 
 <template>
   <div :class="cn('space-y-2', props.class)">
     <slot name="toolbar" :table="table" />
 
-    <div class="overflow-hidden rounded-lg border border-[#ECE5DA] bg-white">
+    <div class="overflow-hidden rounded-lg border border-border bg-white">
       <Table>
         <TableHeader>
           <TableRow
             v-for="headerGroup in table.getHeaderGroups()"
             :key="headerGroup.id"
-            class="border-[#ECE5DA] hover:bg-transparent"
+            class="border-border hover:bg-transparent"
           >
             <TableHead
               v-for="header in headerGroup.headers"
               :key="header.id"
-              :style="{ width: header.getSize() !== 150 ? `${header.getSize()}px` : undefined }"
+              :style="{
+                width: header.getSize() !== 150 ? `${header.getSize()}px` : undefined,
+                ...getPinningStyles(header.column.id)
+              }"
+              :class="getPinningClasses(header.column.id)"
             >
               <FlexRender
                 v-if="!header.isPlaceholder"
@@ -105,19 +160,27 @@
             <TableRow
               v-for="row in table.getRowModel().rows"
               :key="row.id"
-              class="border-[#ECE5DA] hover:bg-[#F6F3EE]"
+              class="group/row"
               :class="{ 'cursor-pointer': $attrs.onRowClick }"
               :data-state="row.getIsSelected() ? 'selected' : undefined"
               @click="emit('rowClick', row.original)"
             >
-              <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+              <TableCell
+                v-for="cell in row.getVisibleCells()"
+                :key="cell.id"
+                :style="getPinningStyles(cell.column.id)"
+                :class="getPinningClasses(cell.column.id)"
+              >
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </TableCell>
             </TableRow>
           </template>
           <template v-else>
             <TableRow class="hover:bg-transparent">
-              <TableCell :colspan="columns.length" class="h-24 text-center text-[#726159]">
+              <TableCell
+                :colspan="columns.length"
+                class="h-24 text-center text-foreground-tertiary"
+              >
                 No results.
               </TableCell>
             </TableRow>
