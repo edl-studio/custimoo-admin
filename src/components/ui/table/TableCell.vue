@@ -2,9 +2,15 @@
   import type { HTMLAttributes } from 'vue'
   import { cn } from '@/lib/utils'
 
-  const props = defineProps<{
-    class?: HTMLAttributes['class']
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      class?: HTMLAttributes['class']
+      width?: 44 | 128 | 180
+    }>(),
+    {
+      width: 180
+    }
+  )
 </script>
 
 <template>
@@ -15,6 +21,7 @@
         props.class
       )
     "
+    :style="{ minWidth: `${props.width}px` }"
   >
     <slot />
   </td>

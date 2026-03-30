@@ -168,6 +168,7 @@
               <TableCell
                 v-for="cell in row.getVisibleCells()"
                 :key="cell.id"
+                :width="(cell.column.columnDef.meta as any)?.cellWidth"
                 :style="getPinningStyles(cell.column.id)"
                 :class="getPinningClasses(cell.column.id)"
               >

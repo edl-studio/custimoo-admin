@@ -29,5 +29,7 @@ export {
   CellComments,
   CellFlag,
   CellDate,
-  CellEmpty
+  CellEmpty,
+  OrderTypeBadge
 } from './data-type'
+export type { OrderType } from './data-type'

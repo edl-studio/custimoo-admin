@@ -34,15 +34,14 @@
     CellAssignee,
     CellComments,
     CellDate,
-    CellFlag,
+    OrderTypeBadge,
     StageBadge
   } from '@/components/admin'
   import type { ColumnItem } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Checkbox } from '@/components/ui/checkbox'
   import { useOrders } from '@/composables/useOrders'
-  import type { Order } from '@/data/mock-orders'
-  import type { OrderStage } from '@/data/mock-orders'
+  import type { Order, OrderStage } from '@/data/mock-orders'
 
   const router = useRouter()
   const { orders } = useOrders()
@@ -149,20 +148,20 @@
         }),
       enableSorting: false,
       enableHiding: false,
-      size: 32
+      size: 32,
+      meta: { cellWidth: 44 }
     },
     {
       accessorKey: 'orderId',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order ID' }),
       cell: ({ row }) => {
         const order = row.original
-        const children = [h(CellText, { color: 'primary', weight: 'medium' }, () => order.orderId)]
-        if (order.flags?.length) {
-          order.flags.forEach(flag => {
-            children.push(h(CellFlag, { flag, class: 'ml-1' }))
-          })
+        const children = []
+        if (order.orderType) {
+          children.push(h(OrderTypeBadge, { type: order.orderType }))
         }
-        return h('div', { class: 'flex items-center gap-0.5' }, children)
+        children.push(h(CellText, { color: 'primary', weight: 'medium' }, () => order.orderId))
+        return h('div', { class: 'flex items-center gap-1' }, children)
       },
       size: 140
     },

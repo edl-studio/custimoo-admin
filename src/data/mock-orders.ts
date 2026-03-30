@@ -8,7 +8,7 @@ export type OrderStage =
   | 'Shipping'
   | 'Completed'
 
-export type OrderFlag = 'M' | 'R' | 'S'
+export type OrderType = 'split' | 'reorder' | 'sample' | 'manual' | 'remake'
 
 export interface Order {
   id: string
@@ -27,7 +27,7 @@ export interface Order {
   invoiceStatus: string
   administrator: { name: string; avatar?: string }
   comments: number
-  flags?: OrderFlag[]
+  orderType?: OrderType
   splits?: { id: string; factory: string }[]
 }
 
@@ -49,7 +49,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Pending',
     administrator: { name: 'Samar Muhammad' },
     comments: 3,
-    flags: ['R']
+    orderType: 'remake'
   },
   {
     id: '2',
@@ -86,7 +86,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Paid',
     administrator: { name: 'Frederick Van Isschot' },
     comments: 7,
-    flags: ['M']
+    orderType: 'manual'
   },
   {
     id: '4',
@@ -105,7 +105,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Pending',
     administrator: { name: 'Sophie Martens' },
     comments: 2,
-    flags: ['S']
+    orderType: 'sample'
   },
   {
     id: '5',
@@ -178,7 +178,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Paid',
     administrator: { name: 'Samar Muhammad' },
     comments: 12,
-    flags: ['M', 'R']
+    orderType: 'split'
   },
   {
     id: '9',
@@ -251,7 +251,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Invoiced',
     administrator: { name: 'Frederick Van Isschot' },
     comments: 3,
-    flags: ['S']
+    orderType: 'sample'
   },
   {
     id: '13',
@@ -288,7 +288,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Paid',
     administrator: { name: 'Sophie Martens' },
     comments: 8,
-    flags: ['M']
+    orderType: 'manual'
   },
   {
     id: '15',
@@ -343,7 +343,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Invoiced',
     administrator: { name: 'Samar Muhammad' },
     comments: 4,
-    flags: ['R']
+    orderType: 'remake'
   },
   {
     id: '18',
@@ -398,7 +398,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Pending',
     administrator: { name: 'Samar Muhammad' },
     comments: 5,
-    flags: ['M', 'S']
+    orderType: 'reorder'
   },
   {
     id: '21',
@@ -507,7 +507,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Draft',
     administrator: { name: 'Samar Muhammad' },
     comments: 1,
-    flags: ['M']
+    orderType: 'manual'
   },
   {
     id: '27',
@@ -580,7 +580,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Paid',
     administrator: { name: 'Frederick Van Isschot' },
     comments: 11,
-    flags: ['R']
+    orderType: 'remake'
   },
   {
     id: '31',
@@ -617,7 +617,7 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Paid',
     administrator: { name: 'Sophie Martens' },
     comments: 7,
-    flags: ['M', 'R']
+    orderType: 'split'
   },
   {
     id: '33',
@@ -672,6 +672,6 @@ export const mockOrders: Order[] = [
     invoiceStatus: 'Draft',
     administrator: { name: 'Sophie Martens' },
     comments: 0,
-    flags: ['S']
+    orderType: 'sample'
   }
 ]
