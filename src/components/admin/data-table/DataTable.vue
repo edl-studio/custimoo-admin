@@ -32,6 +32,7 @@
       data: TData[]
       showPagination?: boolean
       pinnedColumns?: string[]
+      rowClass?: (row: TData) => string | undefined
       class?: HTMLAttributes['class']
     }>(),
     {
@@ -159,16 +160,24 @@
               v-for="row in table.getRowModel().rows"
               :key="row.id"
               class="group/row"
-              :class="{ 'cursor-pointer': $attrs.onRowClick }"
               :data-state="row.getIsSelected() ? 'selected' : undefined"
-              @click="emit('rowClick', row.original)"
+              :data-active="props.rowClass?.(row.original) ? '' : undefined"
             >
               <TableCell
                 v-for="cell in row.getVisibleCells()"
                 :key="cell.id"
                 :width="(cell.column.columnDef.meta as any)?.cellWidth"
                 :style="getPinningStyles(cell.column.id)"
-                :class="getPinningClasses(cell.column.id)"
+                :class="[
+                  getPinningClasses(cell.column.id),
+                  (cell.column.columnDef.meta as any)?.opensSheet && 'cursor-pointer'
+                ]"
+                :data-interactive="
+                  (cell.column.columnDef.meta as any)?.interactive ? '' : undefined
+                "
+                @click="
+                  (cell.column.columnDef.meta as any)?.opensSheet && emit('rowClick', row.original)
+                "
               >
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </TableCell>

@@ -1,21 +1,32 @@
 <script setup lang="ts">
+  import type { Order } from '@/data/mock-orders'
   import {
+    Bell,
     CalendarDays,
     ClipboardList,
+    DollarSign,
+    Ellipsis,
     Factory,
     Grid2x2,
     LayoutDashboard,
     Package,
     PenLine,
-    Settings,
     ShoppingBag,
-    Tag,
     Building2,
-    DollarSign,
     Users
   } from 'lucide-vue-next'
-  import { AdminLayout, SidebarNav, type NavSection } from '@/components/admin'
+  import {
+    AdminLayout,
+    SheetContent,
+    SheetHeader,
+    SidebarNav,
+    type NavSection
+  } from '@/components/admin'
+  import { Button } from '@/components/ui/button'
   import { Toaster } from '@/components/ui/sonner'
+  import { useSheet } from '@/composables/useSheet'
+
+  const { sheets, close } = useSheet()
 
   const navSections: NavSection[] = [
     {
@@ -52,13 +63,34 @@
 <template>
   <AdminLayout>
     <template #sidebar>
-      <SidebarNav
-        :sections="navSections"
-        user-name="Samar Muhammad"
-        user-email="sm@custimoo.com"
-      />
+      <SidebarNav :sections="navSections" user-name="Samar Muhammad" user-email="sm@custimoo.com" />
     </template>
     <RouterView />
+    <template #sheets>
+      <SheetContent v-for="sheet in sheets" :key="sheet.id">
+        <SheetHeader
+          show-minimize
+          show-fullscreen
+          @minimize="close(sheet.id)"
+          @close="close(sheet.id)"
+        >
+          <template #leading>
+            <Button variant="default" size="icon">
+              <Ellipsis />
+            </Button>
+            <Button variant="default" size="icon">
+              <Bell />
+            </Button>
+          </template>
+        </SheetHeader>
+
+        <div class="flex-1 overflow-y-auto p-6">
+          <h2 class="text-lg font-semibold text-foreground">
+            Order {{ (sheet.data as Order).orderId }}
+          </h2>
+        </div>
+      </SheetContent>
+    </template>
   </AdminLayout>
   <Toaster />
 </template>
