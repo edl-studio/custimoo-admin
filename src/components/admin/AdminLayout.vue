@@ -38,8 +38,10 @@
     <!-- Main area -->
     <div class="flex flex-1 flex-col overflow-hidden pt-2 pr-2 pb-2">
       <!-- Content row: page + future sheets -->
-      <div class="flex min-h-0 flex-1 gap-2">
-        <main class="min-w-0 flex-1 overflow-y-auto rounded-xl border border-border bg-card shadow-[0_1px_3px_0_rgba(0,0,0,0.04),0_1px_2px_-1px_rgba(0,0,0,0.03)]">
+      <div class="flex min-h-0 flex-1">
+        <main
+          class="min-w-0 flex-1 overflow-y-auto rounded-xl border border-border bg-card shadow-[0_1px_3px_0_rgba(0,0,0,0.04),0_1px_2px_-1px_rgba(0,0,0,0.03)]"
+        >
           <slot />
         </main>
         <!-- Sheets slot: sheets stack horizontally as flex siblings -->

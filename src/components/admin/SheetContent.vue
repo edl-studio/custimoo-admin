@@ -14,7 +14,7 @@
       cn(
         'flex shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-card',
         'shadow-[0_1px_3px_0_rgba(0,0,0,0.04),0_1px_2px_-1px_rgba(0,0,0,0.03)]',
-        'transition-[width] duration-200 ease-in-out',
+        'ml-2',
         fullscreen ? 'w-full' : 'w-[480px]',
         props.class
       )

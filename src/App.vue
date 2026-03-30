@@ -67,30 +67,67 @@
     </template>
     <RouterView />
     <template #sheets>
-      <SheetContent v-for="sheet in sheets" :key="sheet.id">
-        <SheetHeader
-          show-minimize
-          show-fullscreen
-          @minimize="close(sheet.id)"
-          @close="close(sheet.id)"
-        >
-          <template #leading>
-            <Button variant="default" size="icon">
-              <Ellipsis />
-            </Button>
-            <Button variant="default" size="icon">
-              <Bell />
-            </Button>
-          </template>
-        </SheetHeader>
+      <TransitionGroup name="sheet">
+        <SheetContent v-for="sheet in sheets" :key="sheet.id">
+          <SheetHeader
+            show-minimize
+            show-fullscreen
+            @minimize="close(sheet.id)"
+            @close="close(sheet.id)"
+          >
+            <template #leading>
+              <Button variant="default" size="icon">
+                <Ellipsis />
+              </Button>
+              <Button variant="default" size="icon">
+                <Bell />
+              </Button>
+            </template>
+          </SheetHeader>
 
-        <div class="flex-1 overflow-y-auto p-6">
-          <h2 class="text-lg font-semibold text-foreground">
-            Order {{ (sheet.data as Order).orderId }}
-          </h2>
-        </div>
-      </SheetContent>
+          <div class="flex-1 overflow-y-auto p-6">
+            <h2 class="text-lg font-semibold text-foreground">
+              Order {{ (sheet.data as Order).orderId }}
+            </h2>
+          </div>
+        </SheetContent>
+      </TransitionGroup>
     </template>
   </AdminLayout>
   <Toaster />
 </template>
+
+<style>
+  /* Sheet enter: slide in from right with width expansion */
+  .sheet-enter-from,
+  .sheet-leave-to {
+    width: 0 !important;
+    margin-left: 0 !important;
+    opacity: 0;
+    border-color: transparent !important;
+  }
+
+  .sheet-enter-active {
+    transition:
+      width 350ms cubic-bezier(0.16, 1, 0.3, 1),
+      margin-left 350ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 250ms ease 80ms,
+      border-color 200ms ease 80ms;
+    overflow: hidden !important;
+  }
+
+  /* Sheet leave: quick fade then smooth collapse */
+  .sheet-leave-active {
+    transition:
+      width 280ms cubic-bezier(0.4, 0, 0.2, 1) 40ms,
+      margin-left 280ms cubic-bezier(0.4, 0, 0.2, 1) 40ms,
+      opacity 140ms ease,
+      border-color 140ms ease;
+    overflow: hidden !important;
+  }
+
+  /* Sibling sheets reposition smoothly */
+  .sheet-move {
+    transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>
