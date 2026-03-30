@@ -9,16 +9,34 @@ export interface SheetState {
 const MAX_SHEETS = 4
 
 const sheets = ref<SheetState[]>([])
+const maxVisible = ref(MAX_SHEETS)
 
 export function useSheet() {
   const openIds = computed(() => sheets.value.map(s => s.id))
 
+  const visibleSheets = computed(() => sheets.value.slice(-maxVisible.value))
+
+  const hiddenCount = computed(() => Math.max(0, sheets.value.length - maxVisible.value))
+
+  function setMaxVisible(n: number) {
+    maxVisible.value = n
+  }
+
   function open(id: string, type: string, data: unknown) {
-    const existing = sheets.value.findIndex(s => s.id === id)
-    if (existing !== -1) {
-      close(id)
+    const existingIndex = sheets.value.findIndex(s => s.id === id)
+
+    if (existingIndex !== -1) {
+      const visibleIds = new Set(visibleSheets.value.map(s => s.id))
+
+      if (visibleIds.has(id)) {
+        close(id)
+      } else {
+        const [sheet] = sheets.value.splice(existingIndex, 1) as [SheetState]
+        sheets.value.push(sheet)
+      }
       return
     }
+
     if (sheets.value.length >= MAX_SHEETS) {
       sheets.value.shift()
     }
@@ -39,10 +57,14 @@ export function useSheet() {
 
   return {
     sheets,
+    visibleSheets,
+    hiddenCount,
+    maxVisible,
     openIds,
     open,
     close,
     closeAll,
-    isOpen
+    isOpen,
+    setMaxVisible
   }
 }

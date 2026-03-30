@@ -24,9 +24,16 @@
   } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Toaster } from '@/components/ui/sonner'
+  import type { ComputedRef } from 'vue'
+  import { inject, computed } from 'vue'
   import { useSheet } from '@/composables/useSheet'
 
-  const { sheets, close } = useSheet()
+  const { sheets, visibleSheets, hiddenCount, close } = useSheet()
+  const isStackedSheets = inject<ComputedRef<boolean>>(
+    'is-stacked-sheets',
+    computed(() => false)
+  )
+  const sheetTransition = computed(() => (isStackedSheets.value ? 'sheet-swap' : 'sheet'))
 
   const navSections: NavSection[] = [
     {
@@ -67,8 +74,8 @@
     </template>
     <RouterView />
     <template #sheets>
-      <TransitionGroup name="sheet">
-        <SheetContent v-for="sheet in sheets" :key="sheet.id">
+      <TransitionGroup :name="sheetTransition">
+        <SheetContent v-for="(sheet, index) in visibleSheets" :key="sheet.id">
           <SheetHeader
             show-minimize
             show-fullscreen
@@ -76,6 +83,12 @@
             @close="close(sheet.id)"
           >
             <template #leading>
+              <span
+                v-if="hiddenCount > 0 && index === 0"
+                class="mr-1 text-xs text-muted-foreground"
+              >
+                {{ sheets.length - hiddenCount }} of {{ sheets.length }}
+              </span>
               <Button variant="default" size="icon">
                 <Ellipsis />
               </Button>
@@ -129,5 +142,20 @@
   /* Sibling sheets reposition smoothly */
   .sheet-move {
     transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Stacked mode: fade swap without width animation */
+  .sheet-swap-enter-from,
+  .sheet-swap-leave-to {
+    opacity: 0;
+  }
+
+  .sheet-swap-enter-active {
+    transition: opacity 200ms ease 40ms;
+  }
+
+  .sheet-swap-leave-active {
+    transition: opacity 150ms ease;
+    position: absolute;
   }
 </style>
