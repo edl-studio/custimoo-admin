@@ -30,7 +30,8 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     () => ({
-      template: '<div class="w-[200px]"><story /></div>'
+      template:
+        '<div class="group/th w-[200px] text-xs font-semibold text-foreground-tertiary"><story /></div>'
     })
   ]
 } satisfies Meta
@@ -73,7 +74,8 @@ export const NonSortable: Story = {
 export const AllStates: Story = {
   decorators: [
     () => ({
-      template: '<div class="w-[400px]"><story /></div>'
+      template:
+        '<div class="w-[400px] text-xs font-semibold text-foreground-tertiary"><story /></div>'
     })
   ],
   render: () => ({

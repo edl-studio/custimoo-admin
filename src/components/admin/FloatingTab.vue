@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { HTMLAttributes } from 'vue'
-  import { Hash, X } from 'lucide-vue-next'
+  import { X } from 'lucide-vue-next'
   import { cn } from '@/lib/utils'
   import { type ViewColor, VIEW_COLOR_BG } from '@/lib/view-colors'
 
@@ -45,10 +45,7 @@
 
     <!-- Content -->
     <div class="flex min-w-0 flex-1 items-center gap-0.5">
-      <div class="flex shrink-0 items-center gap-0.5">
-        <Hash class="size-3 text-foreground-tertiary" />
-        <span class="text-sm text-foreground-tertiary">{{ id }}</span>
-      </div>
+      <span class="shrink-0 text-sm text-foreground-tertiary">{{ id }}</span>
       <span class="truncate text-sm font-medium text-foreground">{{ label }}</span>
     </div>
 
