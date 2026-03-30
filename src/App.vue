@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { computed } from 'vue'
   import type { Order } from '@/data/mock-orders'
   import {
     Bell,
@@ -9,6 +10,7 @@
     Factory,
     Grid2x2,
     LayoutDashboard,
+    Moon,
     Package,
     PenLine,
     ShoppingBag,
@@ -17,6 +19,9 @@
   } from 'lucide-vue-next'
   import {
     AdminLayout,
+    FloatingTab,
+    FloatingTabAll,
+    FloatingTabBar,
     SheetContent,
     SheetHeader,
     SidebarNav,
@@ -25,8 +30,25 @@
   import { Button } from '@/components/ui/button'
   import { Toaster } from '@/components/ui/sonner'
   import { useSheet } from '@/composables/useSheet'
+  import type { SheetState } from '@/composables/useSheet'
 
-  const { sheets, close } = useSheet()
+  const { sheets, visibleSheets, minimizedSheets, close, minimize, restore } = useSheet()
+
+  const hasMinimizedSheets = computed(() => minimizedSheets.value.length > 0)
+
+  function getSheetLabel(sheet: SheetState) {
+    const order = sheet.data as Order
+    return `${order.merchant} - ${order.customer}`
+  }
+
+  function getSheetId(sheet: SheetState) {
+    const order = sheet.data as Order
+    return order.orderId
+  }
+
+  function handleTabRestore(id: string) {
+    restore(id)
+  }
 
   const navSections: NavSection[] = [
     {
@@ -68,11 +90,11 @@
     <RouterView />
     <template #sheets>
       <TransitionGroup name="sheet">
-        <SheetContent v-for="sheet in sheets" :key="sheet.id">
+        <SheetContent v-for="sheet in visibleSheets" :key="sheet.id">
           <SheetHeader
             show-minimize
             show-fullscreen
-            @minimize="close(sheet.id)"
+            @minimize="minimize(sheet.id)"
             @close="close(sheet.id)"
           >
             <template #leading>
@@ -94,6 +116,37 @@
       </TransitionGroup>
     </template>
   </AdminLayout>
+
+  <!-- Floating tab bar (overlays content, below modals/dialogs) -->
+  <FloatingTabBar v-if="hasMinimizedSheets">
+    <FloatingTabAll
+      :sheets="sheets"
+      :get-label="getSheetLabel"
+      :get-id="getSheetId"
+      @restore="handleTabRestore"
+      @close="close"
+    >
+      <template #icon>
+        <Moon class="size-4 text-primary" />
+      </template>
+    </FloatingTabAll>
+
+    <TransitionGroup name="tab">
+      <FloatingTab
+        v-for="sheet in minimizedSheets"
+        :key="sheet.id"
+        :id="getSheetId(sheet)"
+        :label="getSheetLabel(sheet)"
+        @click="restore(sheet.id)"
+        @close="close(sheet.id)"
+      >
+        <template #icon>
+          <Moon class="size-4 text-primary" />
+        </template>
+      </FloatingTab>
+    </TransitionGroup>
+  </FloatingTabBar>
+
   <Toaster />
 </template>
 
@@ -129,5 +182,33 @@
   /* Sibling sheets reposition smoothly */
   .sheet-move {
     transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Tab enter/leave animations */
+  .tab-enter-from,
+  .tab-leave-to {
+    width: 0 !important;
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  .tab-enter-active {
+    transition:
+      width 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 200ms ease 50ms,
+      transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .tab-leave-active {
+    transition:
+      width 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 150ms ease,
+      transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .tab-move {
+    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 </style>

@@ -1,4 +1,7 @@
 export { default as AdminAvatar } from './AdminAvatar.vue'
+export { default as FloatingTab } from './FloatingTab.vue'
+export { default as FloatingTabAll } from './FloatingTabAll.vue'
+export { default as FloatingTabBar } from './FloatingTabBar.vue'
 export { default as AdminLayout } from './AdminLayout.vue'
 export { default as SheetContent } from './SheetContent.vue'
 export { default as SheetHeader } from './SheetHeader.vue'
