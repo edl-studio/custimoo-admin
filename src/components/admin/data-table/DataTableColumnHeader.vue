@@ -2,7 +2,6 @@
   import type { Column } from '@tanstack/vue-table'
   import type { HTMLAttributes } from 'vue'
   import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-vue-next'
-  import { Button } from '@/components/ui/button'
   import { cn } from '@/lib/utils'
 
   const props = defineProps<{
@@ -26,31 +25,25 @@
 </script>
 
 <template>
-  <div
-    v-if="!column.getCanSort()"
-    :class="cn('text-[#726159]', props.class)"
-  >
+  <div v-if="!column.getCanSort()" :class="cn('whitespace-nowrap', props.class)">
     {{ title }}
   </div>
-  <Button
+  <div
     v-else
-    variant="ghost"
-    size="sm"
-    :class="cn('-ml-3 h-8 text-[#726159] hover:text-[#1D1816]', props.class)"
+    :class="
+      cn(
+        'flex cursor-pointer items-center gap-1 whitespace-nowrap hover:text-foreground',
+        props.class
+      )
+    "
     @click="toggleSort"
   >
     {{ title }}
-    <ArrowUp
-      v-if="column.getIsSorted() === 'asc'"
-      class="ml-1 size-3.5"
-    />
-    <ArrowDown
-      v-else-if="column.getIsSorted() === 'desc'"
-      class="ml-1 size-3.5"
-    />
+    <ArrowUp v-if="column.getIsSorted() === 'asc'" class="size-3.5 shrink-0" />
+    <ArrowDown v-else-if="column.getIsSorted() === 'desc'" class="size-3.5 shrink-0" />
     <ArrowUpDown
       v-else
-      class="ml-1 size-3.5"
+      class="size-3.5 shrink-0 opacity-0 transition-opacity group-hover/th:opacity-100"
     />
-  </Button>
+  </div>
 </template>

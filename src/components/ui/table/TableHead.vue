@@ -11,7 +11,7 @@
   <th
     :class="
       cn(
-        'h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-0.5',
+        'group/th h-10 border-b bg-white px-3 text-left align-middle text-xs font-semibold text-foreground-tertiary [&:has([role=checkbox])]:px-2 [&>[role=checkbox]]:translate-y-0.5',
         props.class
       )
     "
