@@ -24,6 +24,7 @@
   import {
     ColumnPopover,
     PageHeader,
+    ResponsiveButton,
     DataTable,
     DataTableColumnHeader,
     TabViewItem,
@@ -280,14 +281,12 @@
             <Search class="size-4 text-muted-foreground" />
           </template>
         </TextInput>
-        <Button variant="outline">
+        <ResponsiveButton variant="outline" label="Export order data">
           <Download class="size-4" />
-          Export order data
-        </Button>
-        <Button variant="primary">
+        </ResponsiveButton>
+        <ResponsiveButton variant="primary" label="Create order">
           <Plus class="size-4" />
-          Create order
-        </Button>
+        </ResponsiveButton>
       </template>
     </PageHeader>
 

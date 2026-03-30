@@ -12,7 +12,7 @@
   <header
     :class="
       cn(
-        'flex h-16 shrink-0 items-center justify-between gap-4 border-b border-border px-4',
+        '@container flex h-16 shrink-0 items-center justify-between gap-4 border-b border-border px-4',
         props.class
       )
     "
