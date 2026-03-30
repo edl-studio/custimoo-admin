@@ -42,8 +42,6 @@
   )
   const sheetTransition = computed(() => (isStackedSheets.value ? 'sheet-swap' : 'sheet'))
 
-  const hasMinimizedSheets = computed(() => minimizedSheets.value.length > 0)
-
   function getSheetLabel(sheet: SheetState) {
     const order = sheet.data as Order
     return `${order.merchant} - ${order.customer}`
@@ -131,20 +129,8 @@
     </template>
   </Layout>
 
-  <!-- Floating tab bar (overlays content, below modals/dialogs) -->
-  <FloatingTabBar v-if="hasMinimizedSheets">
-    <FloatingTabList
-      :sheets="sheets"
-      :get-label="getSheetLabel"
-      :get-id="getSheetId"
-      @restore="handleTabRestore"
-      @close="close"
-    >
-      <template #icon>
-        <Moon class="size-4 text-primary" />
-      </template>
-    </FloatingTabList>
-
+  <!-- Floating tab bar (always visible, "All tabs" + minimized tabs) -->
+  <FloatingTabBar>
     <TransitionGroup name="tab">
       <FloatingTab
         v-for="sheet in minimizedSheets"
@@ -159,6 +145,18 @@
         </template>
       </FloatingTab>
     </TransitionGroup>
+
+    <FloatingTabList
+      :sheets="sheets"
+      :get-label="getSheetLabel"
+      :get-id="getSheetId"
+      @restore="handleTabRestore"
+      @close="close"
+    >
+      <template #icon>
+        <Moon class="size-4 text-primary" />
+      </template>
+    </FloatingTabList>
   </FloatingTabBar>
 
   <Toaster />
