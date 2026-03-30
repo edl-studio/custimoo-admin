@@ -30,7 +30,7 @@
   <span
     :class="
       cn(
-        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap',
+        'inline-flex items-center rounded-lg border px-2 py-0.5 text-sm font-normal whitespace-nowrap shadow-[0_1px_2px_rgba(0,0,0,0.05),inset_0_1px_2px_white]',
         colorClass,
         props.class
       )

@@ -9,7 +9,9 @@
 
 <template>
   <tr
-    :class="cn('transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', props.class)"
+    :class="
+      cn('h-11 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', props.class)
+    "
   >
     <slot />
   </tr>
