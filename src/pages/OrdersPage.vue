@@ -13,7 +13,6 @@
     Flag,
     Layers,
     LayoutGrid,
-    MessageSquare,
     PenLine,
     Plus,
     FileText,
@@ -30,15 +29,20 @@
     TabViewItem,
     ViewPopover,
     FilterSelectionInput,
-    TextInput
+    TextInput,
+    CellText,
+    CellAssignee,
+    CellComments,
+    CellDate,
+    CellFlag,
+    StageBadge
   } from '@/components/admin'
   import type { ColumnItem } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Checkbox } from '@/components/ui/checkbox'
-  import { Avatar, AvatarFallback } from '@/components/ui/avatar'
   import { useOrders } from '@/composables/useOrders'
-  import type { Order, OrderStage, OrderFlag } from '@/data/mock-orders'
-  import { cn } from '@/lib/utils'
+  import type { Order } from '@/data/mock-orders'
+  import type { OrderStage } from '@/data/mock-orders'
 
   const router = useRouter()
   const { orders } = useOrders()
@@ -125,70 +129,6 @@
     return activeFilters.value[key] ?? undefined
   }
 
-  function getStageBadgeClass(stage: OrderStage): string {
-    switch (stage) {
-      case 'Order approval':
-        return 'bg-teal-50 text-teal-700 border-teal-200'
-      case 'Sample file':
-        return 'bg-teal-50 text-teal-700 border-teal-200'
-      case 'Sample production':
-        return 'bg-orange-100 text-orange-700 border-orange-200'
-      case 'Production files':
-        return 'bg-blue-100 text-blue-700 border-blue-200'
-      case 'In production':
-        return 'bg-amber-100 text-amber-700 border-amber-200'
-      case 'Quality control':
-        return 'bg-teal-50 text-teal-700 border-teal-200'
-      case 'Shipping':
-        return 'bg-green-100 text-green-700 border-green-200'
-      case 'Completed':
-        return 'bg-green-100 text-green-700 border-green-200'
-      default:
-        return ''
-    }
-  }
-
-  function getFlagColor(flag: OrderFlag): string {
-    switch (flag) {
-      case 'M':
-        return 'bg-purple-100 text-purple-700'
-      case 'R':
-        return 'bg-rose-100 text-rose-700'
-      case 'S':
-        return 'bg-sky-100 text-sky-700'
-      default:
-        return 'bg-gray-100 text-gray-600'
-    }
-  }
-
-  function formatDate(dateStr: string): string {
-    const date = new Date(dateStr)
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: '2-digit'
-    }).format(date)
-  }
-
-  function isToday(dateStr: string): boolean {
-    const date = new Date(dateStr)
-    const today = new Date()
-    return (
-      date.getFullYear() === today.getFullYear() &&
-      date.getMonth() === today.getMonth() &&
-      date.getDate() === today.getDate()
-    )
-  }
-
-  function getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
-
   const columns: ColumnDef<Order>[] = [
     {
       id: 'select',
@@ -216,21 +156,10 @@
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order ID' }),
       cell: ({ row }) => {
         const order = row.original
-        const children = [h('span', { class: 'font-medium text-[#1D1816]' }, order.orderId)]
+        const children = [h(CellText, { color: 'primary', weight: 'medium' }, () => order.orderId)]
         if (order.flags?.length) {
           order.flags.forEach(flag => {
-            children.push(
-              h(
-                'span',
-                {
-                  class: cn(
-                    'ml-1 inline-flex size-5 items-center justify-center rounded-full text-xs font-semibold',
-                    getFlagColor(flag)
-                  )
-                },
-                flag
-              )
-            )
+            children.push(h(CellFlag, { flag, class: 'ml-1' }))
           })
         }
         return h('div', { class: 'flex items-center gap-0.5' }, children)
@@ -240,88 +169,63 @@
     {
       accessorKey: 'merchant',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Merchant' }),
-      cell: ({ row }) => h('span', { class: 'text-[#564943]' }, row.getValue('merchant') as string)
+      cell: ({ row }) =>
+        h(CellText, { color: 'secondary' }, () => row.getValue('merchant') as string)
     },
     {
       accessorKey: 'customer',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Customer' }),
-      cell: ({ row }) => h('span', { class: 'text-[#564943]' }, row.getValue('customer') as string)
+      cell: ({ row }) =>
+        h(CellText, { color: 'secondary' }, () => row.getValue('customer') as string)
     },
     {
       accessorKey: 'qty',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'QTY' }),
-      cell: ({ row }) => h('span', { class: 'text-[#564943]' }, String(row.getValue('qty'))),
+      cell: ({ row }) => h(CellText, { color: 'secondary' }, () => String(row.getValue('qty'))),
       size: 70
     },
     {
       accessorKey: 'stage',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Stage' }),
-      cell: ({ row }) => {
-        const stage = row.getValue('stage') as OrderStage
-        return h(
-          'span',
-          {
-            class: cn(
-              'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium whitespace-nowrap',
-              getStageBadgeClass(stage)
-            )
-          },
-          stage
-        )
-      },
+      cell: ({ row }) => h(StageBadge, { stage: row.getValue('stage') as OrderStage }),
       size: 160
     },
     {
       accessorKey: 'currentStep',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Current Step' }),
       cell: ({ row }) =>
-        h('span', { class: 'text-[#564943] text-xs' }, row.getValue('currentStep') as string)
+        h(CellText, { color: 'secondary', size: 'sm' }, () => row.getValue('currentStep') as string)
     },
     {
       accessorKey: 'sinceAction',
       header: 'Since Action',
       cell: ({ row }) =>
-        h('span', { class: 'text-[#726159] text-xs' }, row.getValue('sinceAction') as string),
+        h(CellText, { color: 'tertiary', size: 'sm' }, () => row.getValue('sinceAction') as string),
       size: 100
     },
     {
       accessorKey: 'factory',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Factory' }),
       cell: ({ row }) =>
-        h('span', { class: 'text-[#564943] text-xs' }, row.getValue('factory') as string)
+        h(CellText, { color: 'secondary', size: 'sm' }, () => row.getValue('factory') as string)
     },
     {
       accessorKey: 'orderDate',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order Date' }),
-      cell: ({ row }) =>
-        h(
-          'span',
-          { class: 'text-[#726159] text-xs whitespace-nowrap' },
-          formatDate(row.getValue('orderDate') as string)
-        ),
+      cell: ({ row }) => h(CellDate, { date: row.getValue('orderDate') as string }),
       size: 100
     },
     {
       accessorKey: 'dueDate',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Due Date' }),
-      cell: ({ row }) => {
-        const dateStr = row.getValue('dueDate') as string
-        if (isToday(dateStr)) {
-          return h('span', { class: 'text-red-600 text-xs font-medium' }, 'Today')
-        }
-        return h('span', { class: 'text-[#726159] text-xs whitespace-nowrap' }, formatDate(dateStr))
-      },
+      cell: ({ row }) =>
+        h(CellDate, { date: row.getValue('dueDate') as string, highlightToday: true }),
       size: 100
     },
     {
       accessorKey: 'estShipping',
       header: 'Est. Shipping',
-      cell: ({ row }) =>
-        h(
-          'span',
-          { class: 'text-[#726159] text-xs whitespace-nowrap' },
-          formatDate(row.getValue('estShipping') as string)
-        ),
+      cell: ({ row }) => h(CellDate, { date: row.getValue('estShipping') as string }),
       size: 110
     },
     {
@@ -329,51 +233,33 @@
       header: 'Reference',
       cell: ({ row }) =>
         h(
-          'span',
-          { class: 'text-[#564943] text-xs font-mono' },
-          row.getValue('reference') as string
+          CellText,
+          { color: 'secondary', size: 'sm', mono: true },
+          () => row.getValue('reference') as string
         ),
       size: 130
     },
     {
       accessorKey: 'invoiceStatus',
       header: 'Invoice Status',
-      cell: ({ row }) => {
-        const status = row.getValue('invoiceStatus') as string
-        return h('span', { class: 'text-[#564943] text-xs' }, status)
-      },
+      cell: ({ row }) =>
+        h(
+          CellText,
+          { color: 'secondary', size: 'sm' },
+          () => row.getValue('invoiceStatus') as string
+        ),
       size: 110
     },
     {
       accessorKey: 'administrator',
       header: 'Administrator',
-      cell: ({ row }) => {
-        const admin = row.original.administrator
-        return h('div', { class: 'flex items-center gap-1.5' }, [
-          h(
-            Avatar,
-            { class: 'size-6' },
-            {
-              default: () =>
-                h(AvatarFallback, { class: 'text-[10px]' }, () => getInitials(admin.name))
-            }
-          ),
-          h('span', { class: 'text-[#564943] text-xs whitespace-nowrap' }, admin.name)
-        ])
-      },
+      cell: ({ row }) => h(CellAssignee, { name: row.original.administrator.name }),
       size: 160
     },
     {
       accessorKey: 'comments',
       header: 'Comments',
-      cell: ({ row }) => {
-        const count = row.getValue('comments') as number
-        if (count === 0) return h('span', { class: 'text-[#726159] text-xs' }, '-')
-        return h('div', { class: 'flex items-center gap-1 text-[#564943]' }, [
-          h(MessageSquare, { class: 'size-3.5' }),
-          h('span', { class: 'text-xs' }, String(count))
-        ])
-      },
+      cell: ({ row }) => h(CellComments, { count: row.getValue('comments') as number }),
       size: 90
     }
   ]
@@ -482,6 +368,8 @@
     </div>
 
     <!-- Orders table -->
-    <DataTable :columns="columns as any" :data="filteredOrders" @row-click="handleRowClick" />
+    <div class="p-6">
+      <DataTable :columns="columns as any" :data="filteredOrders" @row-click="handleRowClick" />
+    </div>
   </div>
 </template>
