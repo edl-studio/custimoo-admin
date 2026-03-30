@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { computed, h, ref } from 'vue'
   import type { ColumnDef } from '@tanstack/vue-table'
-  import type { Component } from 'vue'
   import {
     Building2,
     Calendar,
@@ -22,6 +21,7 @@
   } from 'lucide-vue-next'
   import {
     ColumnPopover,
+    FilterBar,
     PageHeader,
     ResponsiveButton,
     DataTable,
@@ -38,7 +38,7 @@
     OrderTypeBadge,
     StageBadge
   } from '@/components/admin'
-  import type { ColumnItem } from '@/components/admin'
+  import type { ColumnItem, FilterDef } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Checkbox } from '@/components/ui/checkbox'
   import { useOrders } from '@/composables/useOrders'
@@ -62,12 +62,6 @@
         o.reference.toLowerCase().includes(q)
     )
   })
-
-  interface FilterDef {
-    key: string
-    label: string
-    icon: Component
-  }
 
   const filters: FilterDef[] = [
     { key: 'group', label: 'Group', icon: LayoutGrid },
@@ -119,14 +113,6 @@
 
   function handleFilterClear(key: string) {
     delete activeFilters.value[key]
-  }
-
-  function isFilterSelected(key: string): boolean {
-    return key in activeFilters.value
-  }
-
-  function getFilterValue(key: string): string | undefined {
-    return activeFilters.value[key] ?? undefined
   }
 
   const columns: ColumnDef<Order>[] = [
@@ -348,19 +334,12 @@
 
     <!-- Filter bar -->
     <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-      <div class="flex flex-wrap items-center gap-2">
-        <FilterSelectionInput
-          v-for="filter in filters"
-          :key="filter.key"
-          :label="filter.label"
-          :icon="filter.icon"
-          :selected="isFilterSelected(filter.key)"
-          :value="getFilterValue(filter.key)"
-          :type="isFilterSelected(filter.key) ? 'chip' : 'dropdown'"
-          @click="handleFilterClick(filter.key)"
-          @clear="handleFilterClear(filter.key)"
-        />
-      </div>
+      <FilterBar
+        :filters="filters"
+        :active-filters="activeFilters"
+        @filter-click="handleFilterClick"
+        @filter-clear="handleFilterClear"
+      />
       <div class="flex shrink-0 items-center gap-3">
         <span class="text-sm text-foreground-tertiary">{{ filteredOrders.length }} orders</span>
         <ColumnPopover

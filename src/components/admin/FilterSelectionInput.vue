@@ -55,7 +55,7 @@
     type="button"
     :class="
       cn(
-        'inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-2.5 text-sm font-medium',
+        'inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border px-2.5 text-sm font-medium',
         'shadow-[0_1px_2px_rgba(0,0,0,0.05)]',
         'transition-colors',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
