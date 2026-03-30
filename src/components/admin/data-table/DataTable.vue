@@ -131,7 +131,7 @@
   <div :class="cn('space-y-2', props.class)">
     <slot name="toolbar" :table="table" />
 
-    <div class="overflow-hidden rounded-lg border border-border bg-white">
+    <div class="overflow-hidden rounded-lg border border-border bg-container">
       <Table>
         <TableHeader>
           <TableRow

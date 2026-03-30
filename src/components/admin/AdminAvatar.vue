@@ -81,7 +81,7 @@
   <div
     :class="
       cn(
-        'inline-flex shrink-0 items-center justify-center overflow-hidden border font-medium text-white shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]',
+        'inline-flex shrink-0 items-center justify-center overflow-hidden border font-medium text-content-primary-inverse shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]',
         SIZE_CLASSES[size],
         props.class
       )
@@ -89,7 +89,11 @@
     :style="{ backgroundColor: bgColor, borderColor: bgColor }"
   >
     <img v-if="logoUrl" :src="logoUrl" :alt="name" class="size-full object-cover" />
-    <component v-else-if="icon" :is="icon" :class="cn('text-white', ICON_SIZES[size])" />
+    <component
+      v-else-if="icon"
+      :is="icon"
+      :class="cn('text-content-primary-inverse', ICON_SIZES[size])"
+    />
     <span v-else>{{ initials }}</span>
   </div>
 </template>

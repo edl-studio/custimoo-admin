@@ -64,11 +64,11 @@
         :class="
           cn(
             'flex w-full min-w-0 rounded-md border bg-background text-foreground shadow-xs transition-[color,box-shadow] outline-none',
-            'placeholder:text-muted-foreground',
+            'placeholder:text-content-placeholder',
             'focus-visible:ring-ring focus-visible:ring-2',
-            'aria-invalid:border-destructive aria-invalid:ring-destructive/50',
-            'aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-destructive/50',
-            'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-disabled disabled:text-foreground/40 disabled:border-transparent disabled:shadow-none',
+            'aria-invalid:border-destructive aria-invalid:ring-border-focused-danger',
+            'aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-border-focused-danger',
+            'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-disabled disabled:text-content-disabled disabled:border-transparent disabled:shadow-none',
             size === 'lg'
               ? 'h-11 px-3.5 text-base'
               : size === 'compact'
