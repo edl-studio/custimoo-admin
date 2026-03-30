@@ -151,6 +151,14 @@ export const NoPagination: Story = {
   }
 }
 
+export const PinnedColumns: Story = {
+  args: {
+    columns: columns as any,
+    data,
+    pinnedColumns: ['id']
+  }
+}
+
 export const Empty: Story = {
   args: {
     columns: columns as any,
