@@ -3,7 +3,7 @@ import { Store } from 'lucide-vue-next'
 import AdminAvatar from './AdminAvatar.vue'
 
 const meta = {
-  title: 'Admin/AdminAvatar',
+  title: 'Admin/Brand/AdminAvatar',
   component: AdminAvatar,
   tags: ['autodocs'],
   argTypes: {

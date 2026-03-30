@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import ToggleText from './ToggleText.vue'
 
 const meta = {
-  title: 'Admin/ToggleText',
+  title: 'Admin/Controls/ToggleText',
   component: ToggleText,
   tags: ['autodocs']
 } satisfies Meta<typeof ToggleText>

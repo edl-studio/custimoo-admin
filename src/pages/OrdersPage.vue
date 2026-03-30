@@ -28,10 +28,10 @@
     DataTableColumnHeader,
     TabViewItem,
     ViewPopover,
-    FilterSelectionInput,
+    FilterChip,
     TextInput,
     CellText,
-    CellTextIcon,
+    CellIconText,
     CellAssignee,
     CellComments,
     CellDate,
@@ -194,7 +194,7 @@
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Factory' }),
       cell: ({ row }) =>
         h(
-          CellTextIcon,
+          CellIconText,
           { color: 'secondary' },
           {
             icon: () => h(Building2, { class: 'size-4 shrink-0' }),
@@ -348,7 +348,7 @@
           v-model:order="columnOrder"
           @restore-default="restoreDefaultColumns"
         >
-          <FilterSelectionInput label="Columns" :icon="Columns3" />
+          <FilterChip label="Columns" :icon="Columns3" />
         </ColumnPopover>
       </div>
     </div>

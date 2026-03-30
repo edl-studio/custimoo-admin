@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CellText from './CellText.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellText',
+  title: 'Admin/Table Cells/CellText',
   component: CellText,
   tags: ['autodocs'],
   decorators: [

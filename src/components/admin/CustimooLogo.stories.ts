@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CustimooLogo from './CustimooLogo.vue'
 
 const meta = {
-  title: 'Admin/CustimooLogo',
+  title: 'Admin/Brand/CustimooLogo',
   component: CustimooLogo,
   tags: ['autodocs']
 } satisfies Meta<typeof CustimooLogo>

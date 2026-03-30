@@ -35,7 +35,7 @@ const sections: NavSection[] = [
 ]
 
 const meta = {
-  title: 'Admin/SidebarNav',
+  title: 'Admin/Layout/SidebarNav',
   component: SidebarNav,
   tags: ['autodocs'],
   args: {

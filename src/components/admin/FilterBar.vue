@@ -3,8 +3,8 @@
   import { useResizeObserver } from '@vueuse/core'
   import { ChevronRight, SlidersHorizontal } from 'lucide-vue-next'
   import type { Component } from 'vue'
-  import FilterSelectionInput from './FilterSelectionInput.vue'
-  import PopoverItem from './PopoverItem.vue'
+  import FilterChip from './FilterChip.vue'
+  import PopoverMenuItem from './PopoverMenuItem.vue'
   import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
   export interface FilterDef {
@@ -116,7 +116,7 @@
       class="pointer-events-none invisible absolute left-0 top-0 flex items-center gap-2"
       aria-hidden="true"
     >
-      <FilterSelectionInput
+      <FilterChip
         v-for="filter in filters"
         :key="filter.key"
         :label="filter.label"
@@ -126,16 +126,11 @@
         :type="isSelected(filter.key) ? 'chip' : 'dropdown'"
         data-filter-measure
       />
-      <FilterSelectionInput
-        label="Filters"
-        :icon="SlidersHorizontal"
-        type="dropdown"
-        data-overflow-measure
-      />
+      <FilterChip label="Filters" :icon="SlidersHorizontal" type="dropdown" data-overflow-measure />
     </div>
 
     <!-- Visible inline filters -->
-    <FilterSelectionInput
+    <FilterChip
       v-for="filter in visibleFilters"
       :key="filter.key"
       :label="filter.label"
@@ -150,7 +145,7 @@
     <!-- Overflow "Filters" button + nested popover -->
     <Popover v-if="overflowFilters.length > 0" v-model:open="overflowOpen">
       <PopoverTrigger as-child>
-        <FilterSelectionInput
+        <FilterChip
           label="Filters"
           :icon="SlidersHorizontal"
           :count="overflowActiveCount || undefined"
@@ -168,7 +163,7 @@
           <!-- Each overflow filter opens a nested sub-popover -->
           <Popover v-for="filter in overflowFilters" :key="filter.key">
             <PopoverTrigger as-child>
-              <PopoverItem
+              <PopoverMenuItem
                 :label="filter.label"
                 :icon="filter.icon"
                 :class="isSelected(filter.key) && '[&>svg:first-child]:text-primary'"
@@ -176,7 +171,7 @@
                 <template #trailing>
                   <ChevronRight class="size-3.5 shrink-0 text-foreground-tertiary" />
                 </template>
-              </PopoverItem>
+              </PopoverMenuItem>
             </PopoverTrigger>
 
             <!-- Nested sub-popover (opens to the side) -->

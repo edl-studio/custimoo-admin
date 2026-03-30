@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CellEmpty from './CellEmpty.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellEmpty',
+  title: 'Admin/Table Cells/CellEmpty',
   component: CellEmpty,
   tags: ['autodocs']
 } satisfies Meta<typeof CellEmpty>
