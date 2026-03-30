@@ -2,13 +2,10 @@
   import type { Component, HTMLAttributes } from 'vue'
   import { computed, inject, ref, type Ref } from 'vue'
   import { RouterLink, useRoute } from 'vue-router'
-  import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-  } from '@/components/ui/popover'
+  import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
   import { Separator } from '@/components/ui/separator'
   import { cn } from '@/lib/utils'
+  import AdminAvatar from './AdminAvatar.vue'
   import CustimooLogo from './CustimooLogo.vue'
   import CustimooLogoMark from './CustimooLogoMark.vue'
   import SidebarButton from './SidebarButton.vue'
@@ -48,29 +45,13 @@
     if (route.meta?.parent === item.to?.replace('/', '')) return true
     return false
   }
-
-  function getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
 </script>
 
 <template>
   <nav :class="cn('group/sidebar flex h-full flex-col', props.class)">
     <!-- Header / Logo -->
     <div class="shrink-0 px-3 pb-5 pt-6">
-      <div
-        :class="
-          cn(
-            'relative flex items-center px-2',
-            collapsed ? 'justify-center' : ''
-          )
-        "
-      >
+      <div :class="cn('relative flex items-center px-2', collapsed ? 'justify-center' : '')">
         <template v-if="!collapsed">
           <CustimooLogo class="text-foreground" />
           <SidebarButton
@@ -89,17 +70,10 @@
     </div>
 
     <!-- Nav sections -->
-    <div
-      :class="
-        cn('flex-1 overflow-y-auto pt-2', collapsed ? 'space-y-3' : 'space-y-2')
-      "
-    >
+    <div :class="cn('flex-1 overflow-y-auto pt-2', collapsed ? 'space-y-3' : 'space-y-2')">
       <div v-for="(section, sectionIndex) in sections" :key="sectionIndex" class="px-3">
         <!-- Section label (expanded only) -->
-        <div
-          v-if="section.label && !collapsed"
-          class="flex h-8 items-center px-2"
-        >
+        <div v-if="section.label && !collapsed" class="flex h-8 items-center px-2">
           <span class="text-xs font-medium text-foreground-tertiary">
             {{ section.label }}
           </span>
@@ -113,9 +87,7 @@
               :class="
                 cn(
                   'flex items-center transition-colors',
-                  collapsed
-                    ? 'size-9 justify-center rounded-lg'
-                    : 'h-8 gap-2 rounded-lg px-2',
+                  collapsed ? 'size-9 justify-center rounded-lg' : 'h-8 gap-2 rounded-lg px-2',
                   isActive(item)
                     ? 'border border-border bg-card shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
                     : 'border border-transparent hover:bg-accent'
@@ -132,10 +104,7 @@
                   )
                 "
               />
-              <span
-                v-if="!collapsed"
-                class="truncate text-sm font-medium text-foreground"
-              >
+              <span v-if="!collapsed" class="truncate text-sm font-medium text-foreground">
                 {{ item.label }}
               </span>
               <span
@@ -166,19 +135,9 @@
               )
             "
           >
-            <!-- Avatar -->
-            <div
-              class="flex size-6 shrink-0 items-center justify-center rounded-lg bg-[#6366F1] shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]"
-            >
-              <span class="text-xs font-medium leading-5 text-white">
-                {{ userName ? getInitials(userName) : 'U' }}
-              </span>
-            </div>
+            <AdminAvatar :name="userName ?? 'User'" size="md" />
             <!-- Name (expanded only) -->
-            <span
-              v-if="!collapsed"
-              class="truncate text-sm font-medium text-foreground"
-            >
+            <span v-if="!collapsed" class="truncate text-sm font-medium text-foreground">
               {{ userName ?? 'User' }}
             </span>
           </button>
@@ -193,13 +152,7 @@
         >
           <!-- Profile header -->
           <div class="flex items-center gap-2 p-1.5">
-            <div
-              class="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-[#6366F1] shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]"
-            >
-              <span class="text-sm font-medium text-white">
-                {{ userName ? getInitials(userName) : 'U' }}
-              </span>
-            </div>
+            <AdminAvatar :name="userName ?? 'User'" size="lg" />
             <div class="min-w-0 flex-1">
               <p class="truncate text-sm font-medium text-foreground">
                 {{ userName ?? 'User' }}

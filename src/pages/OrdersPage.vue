@@ -31,6 +31,7 @@
     FilterSelectionInput,
     TextInput,
     CellText,
+    CellTextIcon,
     CellAssignee,
     CellComments,
     CellDate,
@@ -156,12 +157,14 @@
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order ID' }),
       cell: ({ row }) => {
         const order = row.original
-        const children = []
+        const badges = []
         if (order.orderType) {
-          children.push(h(OrderTypeBadge, { type: order.orderType }))
+          badges.push(h(OrderTypeBadge, { type: order.orderType }))
         }
-        children.push(h(CellText, { color: 'primary', weight: 'medium' }, () => order.orderId))
-        return h('div', { class: 'flex items-center gap-1' }, children)
+        return h('div', { class: 'flex items-center justify-between gap-1' }, [
+          h(CellText, { color: 'primary', weight: 'medium' }, () => order.orderId),
+          badges.length > 0 ? h('div', { class: 'flex items-center gap-1' }, badges) : null
+        ])
       },
       size: 140
     },
@@ -193,20 +196,27 @@
       accessorKey: 'currentStep',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Current Step' }),
       cell: ({ row }) =>
-        h(CellText, { color: 'secondary', size: 'sm' }, () => row.getValue('currentStep') as string)
+        h(CellText, { color: 'secondary' }, () => row.getValue('currentStep') as string)
     },
     {
       accessorKey: 'sinceAction',
-      header: 'Since Action',
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Since Action' }),
       cell: ({ row }) =>
-        h(CellText, { color: 'tertiary', size: 'sm' }, () => row.getValue('sinceAction') as string),
+        h(CellText, { color: 'tertiary' }, () => row.getValue('sinceAction') as string),
       size: 100
     },
     {
       accessorKey: 'factory',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Factory' }),
       cell: ({ row }) =>
-        h(CellText, { color: 'secondary', size: 'sm' }, () => row.getValue('factory') as string)
+        h(
+          CellTextIcon,
+          { color: 'secondary' },
+          {
+            icon: () => h(Building2, { class: 'size-4 shrink-0' }),
+            default: () => row.getValue('factory') as string
+          }
+        )
     },
     {
       accessorKey: 'orderDate',
@@ -223,41 +233,33 @@
     },
     {
       accessorKey: 'estShipping',
-      header: 'Est. Shipping',
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Est. Shipping' }),
       cell: ({ row }) => h(CellDate, { date: row.getValue('estShipping') as string }),
       size: 110
     },
     {
       accessorKey: 'reference',
-      header: 'Reference',
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Reference' }),
       cell: ({ row }) =>
-        h(
-          CellText,
-          { color: 'secondary', size: 'sm', mono: true },
-          () => row.getValue('reference') as string
-        ),
+        h(CellText, { color: 'secondary', mono: true }, () => row.getValue('reference') as string),
       size: 130
     },
     {
       accessorKey: 'invoiceStatus',
-      header: 'Invoice Status',
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Invoice Status' }),
       cell: ({ row }) =>
-        h(
-          CellText,
-          { color: 'secondary', size: 'sm' },
-          () => row.getValue('invoiceStatus') as string
-        ),
+        h(CellText, { color: 'secondary' }, () => row.getValue('invoiceStatus') as string),
       size: 110
     },
     {
       accessorKey: 'administrator',
-      header: 'Administrator',
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Administrator' }),
       cell: ({ row }) => h(CellAssignee, { name: row.original.administrator.name }),
       size: 160
     },
     {
       accessorKey: 'comments',
-      header: 'Comments',
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Comments' }),
       cell: ({ row }) => h(CellComments, { count: row.getValue('comments') as number }),
       size: 90
     }

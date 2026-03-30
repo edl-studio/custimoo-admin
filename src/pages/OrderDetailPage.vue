@@ -1,18 +1,10 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import {
-    CalendarDays,
-    Factory,
-    Hash,
-    Package,
-    Truck,
-    User
-  } from 'lucide-vue-next'
-  import { PageHeader } from '@/components/admin'
+  import { CalendarDays, Factory, Hash, Package, Truck, User } from 'lucide-vue-next'
+  import { AdminAvatar, PageHeader } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-  import { Avatar, AvatarFallback } from '@/components/ui/avatar'
   import { useOrders } from '@/composables/useOrders'
   import type { OrderStage } from '@/data/mock-orders'
   import { cn } from '@/lib/utils'
@@ -23,7 +15,6 @@
 
   const orderId = computed(() => route.params.id as string)
   const order = computed(() => getOrderById(orderId.value))
-
 
   const stages: OrderStage[] = [
     'Order approval',
@@ -70,23 +61,11 @@
       year: 'numeric'
     }).format(new Date(dateStr))
   }
-
-  function getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
 </script>
 
 <template>
   <div class="space-y-6">
-    <PageHeader
-      :title="order ? `Order ${order.orderId}` : 'Order Not Found'"
-      class="border-0 px-0"
-    >
+    <PageHeader :title="order ? `Order ${order.orderId}` : 'Order Not Found'" class="border-0 px-0">
       <template #actions>
         <Button variant="outline" @click="router.push('/orders')">Back to Orders</Button>
       </template>
@@ -249,11 +228,7 @@
             <div>
               <p class="text-xs text-[#726159]">Administrator</p>
               <div class="mt-1 flex items-center gap-2">
-                <Avatar class="size-7">
-                  <AvatarFallback class="text-xs">
-                    {{ getInitials(order.administrator.name) }}
-                  </AvatarFallback>
-                </Avatar>
+                <AdminAvatar :name="order.administrator.name" size="md" />
                 <span class="text-sm text-[#1D1816]">{{ order.administrator.name }}</span>
               </div>
             </div>

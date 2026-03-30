@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { HTMLAttributes } from 'vue'
   import { computed } from 'vue'
+  import { CalendarDays } from 'lucide-vue-next'
   import { cn } from '@/lib/utils'
 
   const props = withDefaults(
@@ -37,11 +38,26 @@
 <template>
   <span
     v-if="highlightToday && isToday"
-    :class="cn('text-sm font-medium text-destructive whitespace-nowrap', props.class)"
+    :class="
+      cn(
+        'inline-flex items-center gap-2 text-sm font-medium text-destructive whitespace-nowrap',
+        props.class
+      )
+    "
   >
+    <CalendarDays class="size-4 shrink-0" />
     Today
   </span>
-  <span v-else :class="cn('text-sm text-foreground-tertiary whitespace-nowrap', props.class)">
+  <span
+    v-else
+    :class="
+      cn(
+        'inline-flex items-center gap-2 text-sm text-foreground-tertiary whitespace-nowrap',
+        props.class
+      )
+    "
+  >
+    <CalendarDays class="size-4 shrink-0" />
     {{ formatted }}
   </span>
 </template>
