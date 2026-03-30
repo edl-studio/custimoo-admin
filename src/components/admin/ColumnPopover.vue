@@ -138,7 +138,7 @@
             v-model="query"
             type="text"
             placeholder="Search"
-            class="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-foreground-tertiary focus:outline-none"
+            class="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-content-placeholder focus:outline-none"
           />
         </div>
       </div>

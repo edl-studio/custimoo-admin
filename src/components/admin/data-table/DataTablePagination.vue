@@ -9,7 +9,7 @@
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue,
+    SelectValue
   } from '@/components/ui/select'
   import { cn } from '@/lib/utils'
 
@@ -26,30 +26,19 @@
 </script>
 
 <template>
-  <div
-    :class="
-      cn(
-        'flex items-center justify-between gap-4 px-2 py-3',
-        props.class
-      )
-    "
-  >
+  <div :class="cn('flex items-center justify-between gap-4 px-2 py-3', props.class)">
     <!-- Rows per page -->
-    <div class="flex items-center gap-2 text-sm text-[#726159]">
+    <div class="flex items-center gap-2 text-sm text-foreground-tertiary">
       <span class="whitespace-nowrap">Rows per page</span>
       <Select
         :model-value="String(table.getState().pagination.pageSize)"
-        @update:model-value="(value) => table.setPageSize(Number(value))"
+        @update:model-value="value => table.setPageSize(Number(value))"
       >
         <SelectTrigger class="h-8 w-[70px]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem
-            v-for="size in sizeOptions"
-            :key="size"
-            :value="String(size)"
-          >
+          <SelectItem v-for="size in sizeOptions" :key="size" :value="String(size)">
             {{ size }}
           </SelectItem>
         </SelectContent>
@@ -58,7 +47,7 @@
 
     <!-- Page info + nav -->
     <div class="flex items-center gap-4">
-      <span class="text-sm text-[#726159]">
+      <span class="text-sm text-foreground-tertiary">
         Page {{ currentPage }} of {{ pageCount }}
       </span>
       <div class="flex items-center gap-1">

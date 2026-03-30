@@ -12,7 +12,7 @@
       <TooltipTrigger as-child>
         <slot />
       </TooltipTrigger>
-      <TooltipContent class="bg-black text-white">
+      <TooltipContent class="bg-tooltip text-content-primary-inverse">
         {{ label }}
       </TooltipContent>
     </Tooltip>

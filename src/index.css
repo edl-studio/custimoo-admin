@@ -41,35 +41,64 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Core semantic colors */
+  /* Surfaces */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+  --color-container: var(--container);
+  --color-tooltip: var(--tooltip);
+
+  /* Content / text */
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-tertiary: var(--foreground-tertiary);
+  --color-content-placeholder: var(--content-placeholder);
+  --color-content-accent: var(--content-accent);
+  --color-content-accent-hover: var(--content-accent-hover);
+  --color-content-danger: var(--content-danger);
+  --color-content-disabled: var(--content-disabled);
+  --color-content-primary-inverse: var(--content-primary-inverse);
+
+  /* Accent (brand teal) */
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-hover: var(--primary-hover);
+
+  /* Controls */
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-controls-hover: var(--controls-hover);
+  --color-controls-hover-strong: var(--controls-hover-strong);
+  --color-controls-hover-weak: var(--controls-hover-weak);
+
+  /* Muted */
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-muted-icon: var(--muted-icon);
+
+  /* Accent (shadcn hover surfaces = Figma controls-hover) */
   --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
   --color-accent-foreground: var(--accent-foreground);
+
+  /* Destructive */
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Borders */
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  --color-border-hover: var(--border-hover);
+  --color-border-hover-strong: var(--border-hover-strong);
+  --color-border-focused: var(--border-focused);
+  --color-border-focused-danger: var(--border-focused-danger);
   --color-input: var(--input);
+
+  /* Interactive states */
   --color-ring: var(--ring);
   --color-overlay: var(--overlay);
   --color-disabled: var(--disabled);
-
-  /* Extended foreground */
-  --color-foreground-secondary: var(--foreground-secondary);
-  --color-foreground-tertiary: var(--foreground-tertiary);
 
   /* Chart / data visualization */
   --color-chart-1: var(--chart-1);
@@ -77,88 +106,109 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-
-  /* Sidebar */
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 /*
  * Custimoo Admin brand tokens
- * Extracted from Figma Global/Foundations → Admin Semantic collection (2026-03-29)
+ * Figma source: Global/Foundations → Product + Semantic collections
+ * Audited 2026-03-30
  *
- * The admin palette uses a warm beige scale (not neutral gray).
- * All semantic tokens map to admin/colors/* Figma variables.
+ * Warm beige scale (not neutral gray). All semantic tokens map to
+ * admin/colors/* and global/* Figma variables.
+ *
+ * shadcn compatibility: --accent/--muted map to Figma controls-hover
+ * (beige-100) for hover surfaces; Figma's "accent" (teal) maps to --primary.
  */
 :root {
   --radius: 0.625rem;
 
-  /* Surfaces */
+  /* ── Surfaces ── */
   --background: oklch(0.965 0.007 80.7); /* #F6F3EE — admin/colors/background (beige-50) */
   --card: oklch(1 0 0); /* #FFFFFF — admin/colors/card */
   --card-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
   --popover: oklch(1 0 0); /* #FFFFFF — admin/colors/popover */
   --popover-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
+  --container: oklch(1 0 0); /* #FFFFFF — admin/colors/container */
+  --tooltip: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/tooltip (beige-950) */
 
-  /* Text */
+  /* ── Content / text ── */
   --foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
-  --foreground-secondary: oklch(0.417 0.02 46.2); /* #564943 — admin/colors/content/secondary */
-  --foreground-tertiary: oklch(0.507 0.025 46.7); /* #726159 — admin/colors/content/tertiary */
+  --foreground-secondary: oklch(
+    0.417 0.02 46.2
+  ); /* #564943 — admin/colors/content/secondary (beige-800) */
+  --foreground-tertiary: oklch(
+    0.507 0.025 46.7
+  ); /* #726159 — admin/colors/content/tertiary (beige-600) */
+  --content-placeholder: oklch(
+    0.214 0.009 43 / 0.6
+  ); /* #1D1816 @ 60% — admin/colors/content/placeholder */
+  --content-accent: oklch(0.656 0.117 178.7); /* #14A892 — admin/colors/content/accent */
+  --content-accent-hover: oklch(0.525 0.091 178); /* #0F7B6B — admin/colors/content/accent-hover */
+  --content-danger: oklch(0.577 0.215 27.3); /* #DC2626 — admin/colors/content/danger */
+  --content-disabled: oklch(
+    0.214 0.009 43 / 0.4
+  ); /* #1D1816 @ 40% — admin/colors/content/disabled */
+  --content-primary-inverse: oklch(1 0 0); /* #FFFFFF — admin/colors/content/primary-inverse */
 
-  /* Primary (teal) */
-  --primary: oklch(0.656 0.117 178.7); /* #14A892 — global/accent */
+  /* ── Accent (brand teal) ── */
+  --primary: oklch(0.656 0.117 178.7); /* #14A892 — admin/colors/accent = global/accent */
   --primary-foreground: oklch(1 0 0); /* #FFFFFF */
-  --primary-hover: oklch(0.524 0.092 179.1); /* #0E7B6A — global/accent-strong */
+  --primary-hover: oklch(
+    0.525 0.091 178
+  ); /* #0F7B6B — admin/colors/accent-hover = global/accent-strong */
 
-  /* Secondary (controls surface) */
-  --secondary: oklch(0.965 0.007 80.7); /* #F6F3EE — admin/colors/controls */
+  /* ── Controls ── */
+  --secondary: oklch(0.965 0.007 80.7); /* #F6F3EE — admin/colors/controls (beige-50) */
   --secondary-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
+  --controls-hover: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/controls-hover (beige-100) */
+  --controls-hover-strong: oklch(
+    0.97 0.02 172
+  ); /* #E8FCF9 — admin/colors/controls-hover-strong = global/accent-weak */
+  --controls-hover-weak: oklch(
+    0.965 0.007 80.7
+  ); /* #F6F3EE — admin/colors/controls-hover-weak (beige-50) */
 
-  /* Muted */
-  --muted: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/controls-hover */
+  /* ── Muted ── */
+  --muted: oklch(0.937 0.012 75.3); /* #EFE9E1 — shadcn surface: admin/colors/controls-hover */
   --muted-foreground: oklch(0.507 0.025 46.7); /* #726159 — admin/colors/content/tertiary */
+  --muted-icon: oklch(
+    0.507 0.025 46.7
+  ); /* #726159 — admin/colors/muted (beige-600, decorative icons) */
 
-  /* Accent (hover surfaces) */
+  /* ── Accent (shadcn hover surfaces = Figma controls-hover) ── */
   --accent: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/controls-hover */
-  --accent-strong: oklch(0.9 0.015 72); /* #E4DCD3 — stronger hover surface */
   --accent-foreground: oklch(0.214 0.009 43); /* #1D1816 — admin/colors/content/primary */
 
-  /* Destructive */
+  /* ── Destructive ── */
   --destructive: oklch(0.577 0.215 27.3); /* #DC2626 — admin/colors/content/danger */
   --destructive-foreground: oklch(1 0 0); /* #FFFFFF */
 
-  /* Borders */
+  /* ── Borders ── */
   --border: oklch(0.924 0.017 79.3); /* #ECE5DA — admin/colors/border (beige-200) */
   --border-strong: oklch(0.867 0.019 67.5); /* #DCD1C6 — admin/colors/border-strong (beige-300) */
+  --border-hover: oklch(0.867 0.019 67.5); /* #DCD1C6 — admin/colors/border-hover (beige-300) */
+  --border-hover-strong: oklch(
+    0.737 0.023 60
+  ); /* #B3A397 — admin/colors/border-hover-strong (beige-400) */
+  --border-focused: oklch(
+    0.656 0.117 178.7 / 0.5
+  ); /* #14A892 @ 50% — admin/colors/border-focused */
+  --border-focused-danger: oklch(
+    0.577 0.215 27.3 / 0.5
+  ); /* #DC2626 @ 50% — admin/colors/border-focused-danger */
   --input: oklch(0.924 0.017 79.3); /* #ECE5DA — admin/colors/border */
 
-  /* Interactive states */
-  --ring: oklch(0.656 0.117 178.7 / 0.5); /* #14A892 at 50% — focus ring */
-  --overlay: oklch(0.214 0.009 43 / 0.8); /* beige-950 at 80% */
-  --disabled: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/disabled */
+  /* ── Interactive states ── */
+  --ring: oklch(0.656 0.117 178.7 / 0.5); /* #14A892 @ 50% — admin/colors/border-focused */
+  --overlay: oklch(0.214 0.009 43 / 0.8); /* beige-950 @ 80% */
+  --disabled: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/disabled (beige-100) */
 
-  /* Chart / data visualization */
+  /* ── Chart / data visualization ── */
   --chart-1: oklch(0.646 0.194 41.1); /* #EA580C */
   --chart-2: oklch(0.6 0.104 184.7); /* #0D9488 */
   --chart-3: oklch(0.398 0.066 227.4); /* #164E63 */
   --chart-4: oklch(0.837 0.164 84.4); /* #FBBF24 */
   --chart-5: oklch(0.769 0.165 70.1); /* #F59E0B */
-
-  /* Sidebar */
-  --sidebar: oklch(0.965 0.007 80.7); /* #F6F3EE — same as background */
-  --sidebar-foreground: oklch(0.214 0.009 43); /* #1D1816 */
-  --sidebar-primary: oklch(0.656 0.117 178.7); /* #14A892 — teal for active icon */
-  --sidebar-primary-foreground: oklch(1 0 0); /* #FFFFFF */
-  --sidebar-accent: oklch(0.937 0.012 75.3); /* #EFE9E1 — hover surface */
-  --sidebar-accent-foreground: oklch(0.214 0.009 43); /* #1D1816 */
-  --sidebar-border: oklch(0.924 0.017 79.3); /* #ECE5DA */
-  --sidebar-ring: oklch(0.507 0.025 46.7); /* #726159 */
 }
 
 @layer base {

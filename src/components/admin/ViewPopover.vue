@@ -1,11 +1,7 @@
 <script setup lang="ts">
   import { ref, watch, computed } from 'vue'
   import { Columns2, ListFilter, Check, Globe, Link, Trash2, CircleHelp } from 'lucide-vue-next'
-  import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-  } from '@/components/ui/popover'
+  import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
   import { Checkbox } from '@/components/ui/checkbox'
   import { Switch } from '@/components/ui/switch'
   import { Separator } from '@/components/ui/separator'
@@ -20,12 +16,16 @@
   }>()
 
   const emit = defineEmits<{
-    save: [payload: { name: string; color: string; includeColumns: boolean; includeFilters: boolean }]
+    save: [
+      payload: { name: string; color: string; includeColumns: boolean; includeFilters: boolean }
+    ]
     delete: []
     copyLink: []
   }>()
 
-  const isEditing = computed(() => props.editing === true || (props.editing == null && !!props.viewName))
+  const isEditing = computed(
+    () => props.editing === true || (props.editing == null && !!props.viewName)
+  )
 
   const open = ref(false)
   const viewName = ref(props.viewName ?? '')
@@ -45,7 +45,7 @@
     { value: '#6366f1', bg: '#6366f1', border: '#6366f1' }
   ]
 
-  watch(open, (isOpen) => {
+  watch(open, isOpen => {
     if (isOpen) {
       viewName.value = props.viewName ?? ''
       selectedColor.value = props.color ?? '#6366f1'
@@ -88,9 +88,7 @@
     >
       <!-- Name input -->
       <div class="p-1">
-        <div
-          class="flex h-9 items-center gap-2 rounded-md px-3 hover:bg-secondary"
-        >
+        <div class="flex h-9 items-center gap-2 rounded-md px-3 hover:bg-secondary">
           <span
             class="size-2 shrink-0 rounded-full border"
             :style="{
@@ -102,7 +100,7 @@
             v-model="viewName"
             type="text"
             placeholder="Name your view"
-            class="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-foreground-tertiary focus:outline-none"
+            class="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-content-placeholder focus:outline-none"
           />
         </div>
       </div>
@@ -124,7 +122,9 @@
           <Check
             v-if="selectedColor === c.value"
             class="size-2.5"
-            :class="c.value === 'none' ? 'text-foreground-tertiary' : 'text-white'"
+            :class="
+              c.value === 'none' ? 'text-foreground-tertiary' : 'text-content-primary-inverse'
+            "
           />
         </button>
       </div>
@@ -134,18 +134,20 @@
       <!-- Included in this view -->
       <div class="px-1 pb-1">
         <div class="px-3 py-1">
-          <span class="text-xs font-medium text-foreground-tertiary">
-            Included in this view
-          </span>
+          <span class="text-xs font-medium text-foreground-tertiary"> Included in this view </span>
         </div>
 
-        <label class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 hover:bg-secondary">
+        <label
+          class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 hover:bg-secondary"
+        >
           <Columns2 class="size-3.5 text-foreground-tertiary" />
           <span class="flex-1 text-sm text-foreground">Columns</span>
           <Checkbox v-model:checked="columns" />
         </label>
 
-        <label class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 hover:bg-secondary">
+        <label
+          class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 hover:bg-secondary"
+        >
           <ListFilter class="size-3.5 text-foreground-tertiary" />
           <span class="flex-1 text-sm text-foreground">Filters</span>
           <Checkbox v-model:checked="filters" />
@@ -158,12 +160,12 @@
         <!-- Share view -->
         <div class="px-1 pb-1">
           <div class="px-3 py-1">
-            <span class="text-xs font-medium text-foreground-tertiary">
-              Share view
-            </span>
+            <span class="text-xs font-medium text-foreground-tertiary"> Share view </span>
           </div>
 
-          <label class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 hover:bg-secondary">
+          <label
+            class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 hover:bg-secondary"
+          >
             <Globe class="size-3.5 text-foreground-tertiary" />
             <span class="flex-1 text-sm text-foreground">Global</span>
             <CircleHelp class="size-3.5 text-foreground-tertiary" />
@@ -198,9 +200,7 @@
 
         <!-- Footer -->
         <div class="p-3">
-          <Button variant="primary" size="default" @click="handleSave">
-            Save
-          </Button>
+          <Button variant="primary" size="default" @click="handleSave"> Save </Button>
         </div>
       </template>
     </PopoverContent>

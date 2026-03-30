@@ -26,21 +26,16 @@
       } else {
         props.table.getColumn(columnId.value)?.setFilterValue(value)
       }
-    },
+    }
   })
 </script>
 
 <template>
-  <div
-    :class="
-      cn(
-        'flex items-center gap-2 py-3',
-        props.class
-      )
-    "
-  >
+  <div :class="cn('flex items-center gap-2 py-3', props.class)">
     <div class="relative max-w-sm flex-1">
-      <Search class="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-[#726159]" />
+      <Search
+        class="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-icon"
+      />
       <Input
         v-model="filterValue"
         :placeholder="filterPlaceholder ?? 'Search...'"

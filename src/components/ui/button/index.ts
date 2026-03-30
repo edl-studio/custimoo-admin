@@ -28,7 +28,7 @@ export const buttonVariants = cva(
           'bg-secondary border border-border text-foreground',
           'shadow-[inset_0_2px_2px_rgba(255,255,255,1),0_1px_2px_rgba(0,0,0,0.05)]',
           'hover:bg-accent',
-          'disabled:bg-disabled disabled:text-foreground/40 disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
+          'disabled:bg-disabled disabled:text-content-disabled disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
         ].join(' '),
 
         /* button-primary: teal fill, white text, inner highlight */
@@ -36,7 +36,7 @@ export const buttonVariants = cva(
           'bg-primary border border-primary text-primary-foreground',
           'shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]',
           'hover:bg-primary-hover hover:border-primary-hover',
-          'disabled:bg-disabled disabled:border-border disabled:text-foreground/40 disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
+          'disabled:bg-disabled disabled:border-border disabled:text-content-disabled disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
         ].join(' '),
 
         /* button-destructive: red fill, white text */
@@ -44,21 +44,19 @@ export const buttonVariants = cva(
           'bg-destructive border border-destructive text-destructive-foreground',
           'shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]',
           'hover:bg-destructive/90 hover:border-destructive/90',
-          'disabled:bg-disabled disabled:border-border disabled:text-foreground/40 disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
+          'disabled:bg-disabled disabled:border-border disabled:text-content-disabled disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
         ].join(' '),
 
         /* button-ghost: transparent, no border, no shadow */
-        ghost: [
-          'text-foreground',
-          'hover:bg-secondary',
-          'disabled:text-foreground/40'
-        ].join(' '),
+        ghost: ['text-foreground', 'hover:bg-secondary', 'disabled:text-content-disabled'].join(
+          ' '
+        ),
 
         /* ghost-destructive: transparent with red icon/text */
         'ghost-destructive': [
           'text-destructive',
           'hover:bg-secondary',
-          'disabled:text-foreground/40'
+          'disabled:text-content-disabled'
         ].join(' '),
 
         /* outline: alias for default — used by inherited ui-kit components */
@@ -66,7 +64,7 @@ export const buttonVariants = cva(
           'bg-secondary border border-border text-foreground',
           'shadow-[inset_0_2px_2px_rgba(255,255,255,1),0_1px_2px_rgba(0,0,0,0.05)]',
           'hover:bg-accent',
-          'disabled:bg-disabled disabled:text-foreground/40 disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
+          'disabled:bg-disabled disabled:text-content-disabled disabled:shadow-[inset_0_2px_2px_rgba(255,255,255,0.25)]'
         ].join(' '),
 
         link: 'text-primary underline-offset-4 hover:underline'
