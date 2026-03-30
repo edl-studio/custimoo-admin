@@ -20,3 +20,14 @@ export {
   DataTablePagination,
   DataTableToolbar
 } from './data-table'
+export {
+  CellText,
+  CellTextIcon,
+  CellOrderNumber,
+  StageBadge,
+  CellAssignee,
+  CellComments,
+  CellFlag,
+  CellDate,
+  CellEmpty
+} from './data-type'
