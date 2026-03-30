@@ -3,7 +3,7 @@ import { Search } from 'lucide-vue-next'
 import TextInput from './TextInput.vue'
 
 const meta = {
-  title: 'Admin/TextInput',
+  title: 'Admin/Controls/TextInput',
   component: TextInput,
   tags: ['autodocs'],
   decorators: [

@@ -3,7 +3,7 @@ import AdminTooltip from './AdminTooltip.vue'
 import { Button } from '@/components/ui/button'
 
 const meta = {
-  title: 'Admin/AdminTooltip',
+  title: 'Admin/Controls/AdminTooltip',
   component: AdminTooltip,
   tags: ['autodocs'],
   decorators: [

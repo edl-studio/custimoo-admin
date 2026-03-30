@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import TabViewItem from './TabViewItem.vue'
 
 const meta = {
-  title: 'Admin/TabViewItem',
+  title: 'Admin/Table/TabViewItem',
   component: TabViewItem,
   tags: ['autodocs'],
   args: {

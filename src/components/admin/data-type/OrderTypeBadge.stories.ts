@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import OrderTypeBadge from './OrderTypeBadge.vue'
 
 const meta = {
-  title: 'Admin/Data Type/OrderTypeBadge',
+  title: 'Admin/Table Cells/OrderTypeBadge',
   component: OrderTypeBadge,
   tags: ['autodocs']
 } satisfies Meta<typeof OrderTypeBadge>

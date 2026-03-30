@@ -1,43 +1,43 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { Calendar, Building2, MapPin } from 'lucide-vue-next'
-import CellTextIcon from './CellTextIcon.vue'
+import CellIconText from './CellIconText.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellTextIcon',
-  component: CellTextIcon,
+  title: 'Admin/Table Cells/CellIconText',
+  component: CellIconText,
   tags: ['autodocs'],
   decorators: [
     () => ({
       template: '<div class="w-[300px]"><story /></div>'
     })
   ]
-} satisfies Meta<typeof CellTextIcon>
+} satisfies Meta<typeof CellIconText>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: args => ({
-    components: { CellTextIcon, Calendar },
+    components: { CellIconText, Calendar },
     setup: () => ({ args }),
     template: `
-      <CellTextIcon v-bind="args">
+      <CellIconText v-bind="args">
         <template #icon><Calendar class="size-4" /></template>
         Mar 15, 2026
-      </CellTextIcon>
+      </CellIconText>
     `
   })
 }
 
 export const WithBuilding: Story = {
   render: args => ({
-    components: { CellTextIcon, Building2 },
+    components: { CellIconText, Building2 },
     setup: () => ({ args }),
     template: `
-      <CellTextIcon v-bind="args">
+      <CellIconText v-bind="args">
         <template #icon><Building2 class="size-4" /></template>
         Acme Factory
-      </CellTextIcon>
+      </CellIconText>
     `
   })
 }
@@ -45,13 +45,13 @@ export const WithBuilding: Story = {
 export const Tertiary: Story = {
   args: { color: 'tertiary' },
   render: args => ({
-    components: { CellTextIcon, MapPin },
+    components: { CellIconText, MapPin },
     setup: () => ({ args }),
     template: `
-      <CellTextIcon v-bind="args">
+      <CellIconText v-bind="args">
         <template #icon><MapPin class="size-4" /></template>
         Shanghai, China
-      </CellTextIcon>
+      </CellIconText>
     `
   })
 }

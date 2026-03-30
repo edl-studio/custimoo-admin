@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import ViewPopover from './ViewPopover.vue'
 
 const meta = {
-  title: 'Admin/ViewPopover',
+  title: 'Admin/Table/ViewPopover',
   component: ViewPopover,
   tags: ['autodocs']
 } satisfies Meta<typeof ViewPopover>

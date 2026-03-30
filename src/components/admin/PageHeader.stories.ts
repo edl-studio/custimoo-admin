@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import PageHeader from './PageHeader.vue'
 
 const meta = {
-  title: 'Admin/PageHeader',
+  title: 'Admin/Layout/PageHeader',
   component: PageHeader,
   tags: ['autodocs'],
   parameters: {

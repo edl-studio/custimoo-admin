@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CellComments from './CellComments.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellComments',
+  title: 'Admin/Table Cells/CellComments',
   component: CellComments,
   tags: ['autodocs']
 } satisfies Meta<typeof CellComments>

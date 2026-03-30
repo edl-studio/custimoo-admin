@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ShoppingCart, Package, Users, LayoutDashboard, Settings } from 'lucide-vue-next'
-import AdminLayout from './AdminLayout.vue'
+import Layout from './Layout.vue'
 import SidebarNav from './SidebarNav.vue'
 import PageHeader from './PageHeader.vue'
 import type { NavSection } from './SidebarNav.vue'
@@ -21,23 +21,23 @@ const sections: NavSection[] = [
 ]
 
 const meta = {
-  title: 'Admin/AdminLayout',
-  component: AdminLayout,
+  title: 'Admin/Layout/Layout',
+  component: Layout,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen'
   }
-} satisfies Meta<typeof AdminLayout>
+} satisfies Meta<typeof Layout>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: () => ({
-    components: { AdminLayout, SidebarNav, PageHeader },
+    components: { Layout, SidebarNav, PageHeader },
     setup: () => ({ sections }),
     template: `
-      <AdminLayout>
+      <Layout>
         <template #sidebar>
           <SidebarNav
             :sections="sections"
@@ -49,7 +49,7 @@ export const Default: Story = {
         <div class="p-4 text-sm text-foreground-secondary">
           Page content goes here
         </div>
-      </AdminLayout>
+      </Layout>
     `
   })
 }

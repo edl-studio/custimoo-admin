@@ -3,7 +3,7 @@
   import { Search, RotateCcw } from 'lucide-vue-next'
   import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
   import { Separator } from '@/components/ui/separator'
-  import PopoverItem from './PopoverItem.vue'
+  import PopoverMenuItem from './PopoverMenuItem.vue'
 
   export interface ColumnItem {
     /** Unique column identifier */
@@ -162,7 +162,7 @@
           @dragend="onDragEnd"
           @drop="onDrop($event, idx)"
         >
-          <PopoverItem
+          <PopoverMenuItem
             :label="col.label"
             :draggable="!query"
             :checked="isVisible(col.id)"
@@ -176,7 +176,11 @@
       <Separator class="bg-border" />
 
       <div class="px-1 py-1">
-        <PopoverItem label="Restore default" :icon="RotateCcw" @click="emit('restoreDefault')" />
+        <PopoverMenuItem
+          label="Restore default"
+          :icon="RotateCcw"
+          @click="emit('restoreDefault')"
+        />
       </div>
     </PopoverContent>
   </Popover>

@@ -102,7 +102,7 @@ const columns: ColumnDef<Order, unknown>[] = [
 
 // DataTable is a generic component — use `as any` to sidestep Storybook meta inference
 const meta = {
-  title: 'Admin/DataTable',
+  title: 'Admin/Table/DataTable',
   component: DataTable as any,
   tags: ['autodocs'],
   parameters: {

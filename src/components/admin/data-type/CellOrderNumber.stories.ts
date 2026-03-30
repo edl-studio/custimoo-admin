@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CellOrderNumber from './CellOrderNumber.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellOrderNumber',
+  title: 'Admin/Table Cells/CellOrderNumber',
   component: CellOrderNumber,
   tags: ['autodocs'],
   decorators: [

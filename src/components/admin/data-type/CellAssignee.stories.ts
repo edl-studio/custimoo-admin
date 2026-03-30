@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CellAssignee from './CellAssignee.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellAssignee',
+  title: 'Admin/Table Cells/CellAssignee',
   component: CellAssignee,
   tags: ['autodocs'],
   decorators: [

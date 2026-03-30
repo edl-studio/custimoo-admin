@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { RotateCcw, Columns2, Trash2 } from 'lucide-vue-next'
-import PopoverItem from './PopoverItem.vue'
+import PopoverMenuItem from './PopoverMenuItem.vue'
 
 const meta = {
-  title: 'Admin/PopoverItem',
-  component: PopoverItem,
+  title: 'Admin/Controls/PopoverMenuItem',
+  component: PopoverMenuItem,
   tags: ['autodocs'],
   decorators: [
     () => ({
       template: '<div class="w-52 rounded-lg border border-border bg-card p-1"><story /></div>'
     })
   ]
-} satisfies Meta<typeof PopoverItem>
+} satisfies Meta<typeof PopoverMenuItem>
 
 export default meta
 type Story = StoryObj<typeof meta>

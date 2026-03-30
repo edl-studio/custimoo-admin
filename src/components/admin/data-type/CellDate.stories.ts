@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import CellDate from './CellDate.vue'
 
 const meta = {
-  title: 'Admin/Data Type/CellDate',
+  title: 'Admin/Table Cells/CellDate',
   component: CellDate,
   tags: ['autodocs']
 } satisfies Meta<typeof CellDate>

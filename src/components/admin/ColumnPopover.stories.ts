@@ -18,7 +18,7 @@ const sampleColumns: ColumnItem[] = [
 const allIds = sampleColumns.map(c => c.id)
 
 const meta = {
-  title: 'Admin/ColumnPopover',
+  title: 'Admin/Table/ColumnPopover',
   component: ColumnPopover,
   tags: ['autodocs'],
   args: {

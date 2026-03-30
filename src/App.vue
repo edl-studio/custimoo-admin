@@ -19,9 +19,9 @@
     Users
   } from 'lucide-vue-next'
   import {
-    AdminLayout,
+    Layout,
     FloatingTab,
-    FloatingTabAll,
+    FloatingTabList,
     FloatingTabBar,
     SheetContent,
     SheetHeader,
@@ -91,7 +91,7 @@
 </script>
 
 <template>
-  <AdminLayout>
+  <Layout>
     <template #sidebar>
       <SidebarNav :sections="navSections" user-name="Samar Muhammad" user-email="sm@custimoo.com" />
     </template>
@@ -129,11 +129,11 @@
         </SheetContent>
       </TransitionGroup>
     </template>
-  </AdminLayout>
+  </Layout>
 
   <!-- Floating tab bar (overlays content, below modals/dialogs) -->
   <FloatingTabBar v-if="hasMinimizedSheets">
-    <FloatingTabAll
+    <FloatingTabList
       :sheets="sheets"
       :get-label="getSheetLabel"
       :get-id="getSheetId"
@@ -143,7 +143,7 @@
       <template #icon>
         <Moon class="size-4 text-primary" />
       </template>
-    </FloatingTabAll>
+    </FloatingTabList>
 
     <TransitionGroup name="tab">
       <FloatingTab

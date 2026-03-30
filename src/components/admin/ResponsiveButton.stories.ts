@@ -3,7 +3,7 @@ import { Plus, Download, Filter } from 'lucide-vue-next'
 import ResponsiveButton from './ResponsiveButton.vue'
 
 const meta = {
-  title: 'Admin/ResponsiveButton',
+  title: 'Admin/Controls/ResponsiveButton',
   component: ResponsiveButton,
   tags: ['autodocs'],
   argTypes: {
