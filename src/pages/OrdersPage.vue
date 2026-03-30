@@ -5,7 +5,6 @@
     Building2,
     Calendar,
     CalendarClock,
-    CircleDot,
     Columns3,
     Download,
     Flag,
@@ -20,8 +19,11 @@
     User
   } from 'lucide-vue-next'
   import {
+    ChecklistPopover,
     ColumnPopover,
+    DatePresetPopover,
     FilterBar,
+    GroupByPopover,
     PageHeader,
     ResponsiveButton,
     DataTable,
@@ -38,12 +40,18 @@
     OrderTypeBadge,
     StageBadge
   } from '@/components/admin'
-  import type { ColumnItem, FilterDef } from '@/components/admin'
+  import type {
+    ChecklistOption,
+    ColumnItem,
+    DatePresetOption,
+    FilterDef,
+    GroupByOption
+  } from '@/components/admin'
   import { Button } from '@/components/ui/button'
   import { Checkbox } from '@/components/ui/checkbox'
   import { useOrders } from '@/composables/useOrders'
   import { useSheet } from '@/composables/useSheet'
-  import type { Order, OrderStage } from '@/data/mock-orders'
+  import type { Order, OrderStage, OrderType } from '@/data/mock-orders'
 
   const { orders } = useOrders()
   const { open: openSheet, isOpen: isSheetOpen } = useSheet()
@@ -65,7 +73,6 @@
 
   const filters: FilterDef[] = [
     { key: 'group', label: 'Group', icon: LayoutGrid },
-    { key: 'status', label: 'Status', icon: CircleDot },
     { key: 'stage', label: 'Stage', icon: Layers },
     { key: 'invoiceStatus', label: 'Invoice status', icon: FileText },
     { key: 'orderCreation', label: 'Order creation', icon: Calendar },
@@ -78,6 +85,144 @@
   ]
 
   const activeFilters = ref<Record<string, string | null>>({})
+  const groupBy = ref<string | null>(null)
+  const selectedStages = ref<string[]>([])
+  const selectedInvoiceStatuses = ref<string[]>([])
+  const selectedOrderTypes = ref<string[]>([])
+  const selectedFlags = ref<string[]>([])
+  const orderCreationPreset = ref<string | null>(null)
+  const dueDatePreset = ref<string | null>(null)
+  const selectedRoles = ref<string[]>([])
+  const selectedCustomers = ref<string[]>([])
+  const selectedMerchants = ref<string[]>([])
+
+  const groupByOptions: GroupByOption[] = [
+    { key: 'status', label: 'Status' },
+    { key: 'stage', label: 'Stage' },
+    { key: 'orderType', label: 'Order type' },
+    { key: 'dueDate', label: 'Due date' }
+  ]
+
+  const allStages: OrderStage[] = [
+    'Order approval',
+    'Sample file',
+    'Sample production',
+    'Production files',
+    'In production',
+    'Quality control',
+    'Shipping',
+    'Completed'
+  ]
+
+  const stageDotColor: Record<OrderStage, string> = {
+    'Order approval': 'bg-blue-500',
+    'Sample file': 'bg-cyan-500',
+    'Sample production': 'bg-pink-500',
+    'Production files': 'bg-indigo-500',
+    'In production': 'bg-fuchsia-500',
+    'Quality control': 'bg-orange-500',
+    Shipping: 'bg-amber-500',
+    Completed: 'bg-teal-500'
+  }
+
+  const stageOptions = computed<ChecklistOption[]>(() =>
+    allStages.map(stage => ({
+      key: stage,
+      label: stage,
+      count: orders.value.filter(o => o.stage === stage).length
+    }))
+  )
+
+  const allInvoiceStatuses = ['Draft', 'Pending', 'Invoiced', 'Paid'] as const
+
+  const invoiceStatusDotColor: Record<string, string> = {
+    Draft: 'bg-gray-400',
+    Pending: 'bg-amber-500',
+    Invoiced: 'bg-blue-500',
+    Paid: 'bg-teal-500'
+  }
+
+  const invoiceStatusOptions = computed<ChecklistOption[]>(() =>
+    allInvoiceStatuses.map(status => ({
+      key: status,
+      label: status,
+      count: orders.value.filter(o => o.invoiceStatus === status).length
+    }))
+  )
+
+  const allOrderTypes: { key: OrderType; label: string }[] = [
+    { key: 'split', label: 'Split order' },
+    { key: 'reorder', label: 'Reorder' },
+    { key: 'sample', label: 'Sample order' },
+    { key: 'manual', label: 'Manual order' },
+    { key: 'remake', label: 'Remake' }
+  ]
+
+  const orderTypeDotColor: Record<OrderType, string> = {
+    split: 'bg-[#725E59]',
+    reorder: 'bg-[#047857]',
+    sample: 'bg-[#C2410C]',
+    manual: 'bg-[#4338CA]',
+    remake: 'bg-[#B91C1C]'
+  }
+
+  const orderTypeOptions = computed<ChecklistOption[]>(() =>
+    allOrderTypes.map(({ key, label }) => ({
+      key,
+      label,
+      count: orders.value.filter(o => o.orderType === key).length
+    }))
+  )
+
+  const flagOptions: ChecklistOption[] = [
+    { key: 'flagged', label: 'Flagged' },
+    { key: 'unflagged', label: 'Unflagged' }
+  ]
+
+  const orderCreationPresets: DatePresetOption[] = [
+    { key: 'today', label: 'Today', icon: Calendar, iconClass: 'text-orange-500' },
+    { key: 'thisWeek', label: 'This week', icon: Calendar, iconClass: 'text-foreground-tertiary' },
+    {
+      key: 'thisMonth',
+      label: 'This month',
+      icon: Calendar,
+      iconClass: 'text-foreground-tertiary'
+    },
+    { key: 'lastMonth', label: 'Last month', icon: Calendar, iconClass: 'text-foreground-tertiary' }
+  ]
+
+  const dueDatePresets: DatePresetOption[] = [
+    { key: 'overdue', label: 'Overdue', icon: Calendar, iconClass: 'text-destructive' },
+    { key: 'today', label: 'Today', icon: Calendar, iconClass: 'text-orange-500' },
+    { key: 'thisWeek', label: 'This week', icon: Calendar, iconClass: 'text-foreground-tertiary' },
+    { key: 'thisMonth', label: 'This month', icon: Calendar, iconClass: 'text-foreground-tertiary' }
+  ]
+
+  const roleOptions: ChecklistOption[] = [
+    { key: 'administrator', label: 'Administrator' },
+    { key: 'merchant', label: 'Merchant' },
+    { key: 'factory', label: 'Factory' }
+  ]
+
+  const customerOptions = computed<ChecklistOption[]>(() => {
+    const counts = new Map<string, number>()
+    for (const o of orders.value) {
+      counts.set(o.customer, (counts.get(o.customer) ?? 0) + 1)
+    }
+    return Array.from(counts.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([name, count]) => ({ key: name, label: name, count }))
+  })
+
+  const merchantOptions = computed<ChecklistOption[]>(() => {
+    const counts = new Map<string, number>()
+    for (const o of orders.value) {
+      counts.set(o.merchant, (counts.get(o.merchant) ?? 0) + 1)
+    }
+    return Array.from(counts.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([name, count]) => ({ key: name, label: name, count }))
+  })
 
   // Column visibility / ordering for ColumnPopover
   const columnItems: ColumnItem[] = [
@@ -340,7 +485,88 @@
           :active-filters="activeFilters"
           @filter-click="handleFilterClick"
           @filter-clear="handleFilterClear"
-        />
+        >
+          <template #filter-content="{ filterKey }">
+            <GroupByPopover
+              v-if="filterKey === 'group'"
+              :options="groupByOptions"
+              v-model="groupBy"
+            />
+            <ChecklistPopover
+              v-else-if="filterKey === 'stage'"
+              :options="stageOptions"
+              v-model="selectedStages"
+            >
+              <template #leading="{ option }">
+                <span
+                  :class="[
+                    'size-2.5 shrink-0 rounded-full',
+                    stageDotColor[option.key as OrderStage]
+                  ]"
+                />
+              </template>
+            </ChecklistPopover>
+            <ChecklistPopover
+              v-else-if="filterKey === 'invoiceStatus'"
+              :options="invoiceStatusOptions"
+              v-model="selectedInvoiceStatuses"
+            >
+              <template #leading="{ option }">
+                <span
+                  :class="['size-2.5 shrink-0 rounded-full', invoiceStatusDotColor[option.key]]"
+                />
+              </template>
+            </ChecklistPopover>
+            <ChecklistPopover
+              v-else-if="filterKey === 'orderType'"
+              :options="orderTypeOptions"
+              v-model="selectedOrderTypes"
+            >
+              <template #leading="{ option }">
+                <span
+                  :class="[
+                    'size-2.5 shrink-0 rounded-full',
+                    orderTypeDotColor[option.key as OrderType]
+                  ]"
+                />
+              </template>
+            </ChecklistPopover>
+            <DatePresetPopover
+              v-else-if="filterKey === 'orderCreation'"
+              :options="orderCreationPresets"
+              v-model="orderCreationPreset"
+              show-date-range
+            />
+            <DatePresetPopover
+              v-else-if="filterKey === 'dueDate'"
+              :options="dueDatePresets"
+              v-model="dueDatePreset"
+              show-date-range
+            />
+            <ChecklistPopover
+              v-else-if="filterKey === 'role'"
+              :options="roleOptions"
+              v-model="selectedRoles"
+            />
+            <ChecklistPopover
+              v-else-if="filterKey === 'customer'"
+              :options="customerOptions"
+              v-model="selectedCustomers"
+              searchable
+            />
+            <ChecklistPopover
+              v-else-if="filterKey === 'merchant'"
+              :options="merchantOptions"
+              v-model="selectedMerchants"
+              searchable
+            />
+            <ChecklistPopover
+              v-else-if="filterKey === 'flag'"
+              :options="flagOptions"
+              v-model="selectedFlags"
+            />
+          </template>
+        </FilterBar>
         <div class="flex shrink-0 items-center gap-3">
           <span class="text-sm text-foreground-tertiary">{{ filteredOrders.length }} orders</span>
           <ColumnPopover
