@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { computed, h, ref } from 'vue'
-  import { useRouter } from 'vue-router'
   import type { ColumnDef } from '@tanstack/vue-table'
   import type { Component } from 'vue'
   import {
@@ -43,10 +42,11 @@
   import { Button } from '@/components/ui/button'
   import { Checkbox } from '@/components/ui/checkbox'
   import { useOrders } from '@/composables/useOrders'
+  import { useSheet } from '@/composables/useSheet'
   import type { Order, OrderStage } from '@/data/mock-orders'
 
-  const router = useRouter()
   const { orders } = useOrders()
+  const { open: openSheet, isOpen: isSheetOpen } = useSheet()
 
   const activeTab = ref<'all' | 'invoice' | 'factory'>('all')
   const searchQuery = ref('')
@@ -154,7 +154,7 @@
     },
     {
       accessorKey: 'orderId',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order id' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order ID' }),
       cell: ({ row }) => {
         const order = row.original
         const badges = []
@@ -166,19 +166,22 @@
           badges.length > 0 ? h('div', { class: 'flex items-center gap-1' }, badges) : null
         ])
       },
-      size: 140
+      size: 140,
+      meta: { opensSheet: true }
     },
     {
       accessorKey: 'merchant',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Merchant' }),
       cell: ({ row }) =>
-        h(CellText, { color: 'secondary' }, () => row.getValue('merchant') as string)
+        h(CellText, { color: 'secondary' }, () => row.getValue('merchant') as string),
+      meta: { interactive: true }
     },
     {
       accessorKey: 'customer',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Customer' }),
       cell: ({ row }) =>
-        h(CellText, { color: 'secondary' }, () => row.getValue('customer') as string)
+        h(CellText, { color: 'secondary' }, () => row.getValue('customer') as string),
+      meta: { interactive: true }
     },
     {
       accessorKey: 'qty',
@@ -190,7 +193,8 @@
       accessorKey: 'stage',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Stage' }),
       cell: ({ row }) => h(StageBadge, { stage: row.getValue('stage') as OrderStage }),
-      size: 160
+      size: 160,
+      meta: { interactive: true }
     },
     {
       accessorKey: 'sinceAction',
@@ -210,7 +214,8 @@
             icon: () => h(Building2, { class: 'size-4 shrink-0' }),
             default: () => row.getValue('factory') as string
           }
-        )
+        ),
+      meta: { interactive: true }
     },
     {
       accessorKey: 'orderDate',
@@ -223,13 +228,15 @@
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Due date' }),
       cell: ({ row }) =>
         h(CellDate, { date: row.getValue('dueDate') as string, highlightToday: true }),
-      size: 100
+      size: 100,
+      meta: { interactive: true }
     },
     {
       accessorKey: 'estShipping',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Est. shipping' }),
       cell: ({ row }) => h(CellDate, { date: row.getValue('estShipping') as string }),
-      size: 110
+      size: 110,
+      meta: { interactive: true }
     },
     {
       accessorKey: 'reference',
@@ -243,24 +250,31 @@
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Invoice status' }),
       cell: ({ row }) =>
         h(CellText, { color: 'secondary' }, () => row.getValue('invoiceStatus') as string),
-      size: 110
+      size: 110,
+      meta: { interactive: true }
     },
     {
       accessorKey: 'administrator',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Administrator' }),
       cell: ({ row }) => h(CellAssignee, { name: row.original.administrator.name }),
-      size: 160
+      size: 160,
+      meta: { interactive: true }
     },
     {
       accessorKey: 'comments',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Comments' }),
       cell: ({ row }) => h(CellComments, { count: row.getValue('comments') as number }),
-      size: 90
+      size: 90,
+      meta: { opensSheet: true }
     }
   ]
 
   function handleRowClick(order: Order) {
-    router.push(`/orders/${order.id}`)
+    openSheet(order.id, 'order', order)
+  }
+
+  function getRowClass(order: Order) {
+    return isSheetOpen(order.id) ? 'bg-muted/50' : undefined
   }
 </script>
 
@@ -274,7 +288,7 @@
             <Search class="size-4 text-muted-foreground" />
           </template>
         </TextInput>
-        <ResponsiveButton variant="outline" label="Export order data">
+        <ResponsiveButton variant="outline" label="Export">
           <Download class="size-4" />
         </ResponsiveButton>
         <ResponsiveButton variant="primary" label="Create order">
@@ -366,6 +380,7 @@
         :columns="columns as any"
         :data="filteredOrders"
         :pinned-columns="['select', 'orderId']"
+        :row-class="getRowClass"
         @row-click="handleRowClick"
       />
     </div>
