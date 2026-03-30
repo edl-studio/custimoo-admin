@@ -61,7 +61,16 @@
     />
 
     <!-- Leading icon -->
-    <component :is="icon" v-if="icon" class="size-3.5 shrink-0 text-foreground-tertiary" />
+    <component
+      :is="icon"
+      v-if="icon"
+      :class="
+        cn(
+          'size-3.5 shrink-0',
+          variant === 'destructive' ? 'text-destructive' : 'text-foreground-tertiary'
+        )
+      "
+    />
 
     <!-- Label -->
     <span class="flex-1 truncate">{{ label }}</span>
