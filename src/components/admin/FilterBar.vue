@@ -131,17 +131,40 @@
     </div>
 
     <!-- Visible inline filters -->
-    <FilterChip
-      v-for="filter in visibleFilters"
-      :key="filter.key"
-      :label="filter.label"
-      :icon="filter.icon"
-      :selected="isSelected(filter.key)"
-      :value="getValue(filter.key)"
-      :type="isSelected(filter.key) ? 'chip' : 'dropdown'"
-      @click="emit('filter-click', filter.key)"
-      @clear="emit('filter-clear', filter.key)"
-    />
+    <template v-for="filter in visibleFilters" :key="filter.key">
+      <!-- Wrap in Popover when slot content is provided -->
+      <Popover v-if="$slots['filter-content']">
+        <PopoverTrigger as-child>
+          <FilterChip
+            :label="filter.label"
+            :icon="filter.icon"
+            :selected="isSelected(filter.key)"
+            :value="getValue(filter.key)"
+            :type="isSelected(filter.key) ? 'chip' : 'dropdown'"
+            @clear="emit('filter-clear', filter.key)"
+          />
+        </PopoverTrigger>
+        <PopoverContent
+          align="start"
+          :side-offset="4"
+          :collision-padding="8"
+          class="flex w-56 flex-col rounded-lg border border-border bg-card p-0 shadow-[0_2px_4px_-2px_rgba(0,0,0,0.1),0_4px_6px_-1px_rgba(0,0,0,0.1)]"
+        >
+          <slot name="filter-content" :filter-key="filter.key" />
+        </PopoverContent>
+      </Popover>
+      <!-- No slot: fall back to click event -->
+      <FilterChip
+        v-else
+        :label="filter.label"
+        :icon="filter.icon"
+        :selected="isSelected(filter.key)"
+        :value="getValue(filter.key)"
+        :type="isSelected(filter.key) ? 'chip' : 'dropdown'"
+        @click="emit('filter-click', filter.key)"
+        @clear="emit('filter-clear', filter.key)"
+      />
+    </template>
 
     <!-- Overflow "Filters" button + nested popover -->
     <Popover v-if="overflowFilters.length > 0" v-model:open="overflowOpen">
@@ -181,12 +204,14 @@
               align="start"
               :side-offset="2"
               :collision-padding="8"
-              class="w-52 rounded-lg border border-border bg-card p-1 shadow-[0_2px_4px_-2px_rgba(0,0,0,0.1),0_4px_6px_-1px_rgba(0,0,0,0.1)]"
+              class="flex w-56 flex-col rounded-lg border border-border bg-card p-0 shadow-[0_2px_4px_-2px_rgba(0,0,0,0.1),0_4px_6px_-1px_rgba(0,0,0,0.1)]"
             >
-              <!-- Placeholder — per-filter options will go here -->
-              <div class="px-3 py-6 text-center text-sm text-foreground-tertiary">
-                {{ filter.label }} options
-              </div>
+              <slot name="filter-content" :filter-key="filter.key">
+                <!-- Fallback placeholder when no content is provided -->
+                <div class="px-3 py-6 text-center text-sm text-foreground-tertiary">
+                  {{ filter.label }} options
+                </div>
+              </slot>
             </PopoverContent>
           </Popover>
         </div>
