@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import type { HTMLAttributes } from 'vue'
   import { MessageSquare } from 'lucide-vue-next'
-  import { cn } from '@/lib/utils'
+  import CellText from './CellText.vue'
+  import CellIconText from './CellIconText.vue'
 
-  const props = withDefaults(
+  withDefaults(
     defineProps<{
       count: number
       emptyDisplay?: string
@@ -16,11 +17,13 @@
 </script>
 
 <template>
-  <span v-if="count === 0" :class="cn('text-sm text-foreground-tertiary', props.class)">
+  <CellText v-if="count === 0" color="tertiary" :class="$props.class">
     {{ emptyDisplay }}
-  </span>
-  <span v-else :class="cn('flex items-center gap-1.5 text-foreground-secondary', props.class)">
-    <MessageSquare class="size-4" />
-    <span class="text-sm font-medium">{{ count }}</span>
-  </span>
+  </CellText>
+  <CellIconText v-else color="secondary" weight="medium" :class="$props.class">
+    <template #icon>
+      <MessageSquare class="size-4" />
+    </template>
+    {{ count }}
+  </CellIconText>
 </template>

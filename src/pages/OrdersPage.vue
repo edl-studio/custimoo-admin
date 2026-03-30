@@ -270,7 +270,7 @@
       <!-- Page header -->
       <PageHeader title="Orders">
         <template #actions>
-          <TextInput v-model="searchQuery" placeholder="Search" size="compact" class="w-56">
+          <TextInput v-model="searchQuery" placeholder="Search" size="sm" class="w-56">
             <template #icon>
               <Search class="size-4 text-muted-foreground" />
             </template>
@@ -295,12 +295,12 @@
           <TabViewItem
             :active="activeTab === 'invoice'"
             editable
-            indicator-color="#6366f1"
+            indicator-color="indigo"
             @click="activeTab = 'invoice'"
           >
             Invoice dashboard
             <template #edit>
-              <ViewPopover view-name="Invoice dashboard" color="#6366f1">
+              <ViewPopover view-name="Invoice dashboard" color="indigo">
                 <button type="button" class="cursor-pointer">
                   <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
                 </button>
@@ -310,12 +310,12 @@
           <TabViewItem
             :active="activeTab === 'factory'"
             editable
-            indicator-color="#ef4444"
+            indicator-color="red"
             @click="activeTab = 'factory'"
           >
             Mark to factory
             <template #edit>
-              <ViewPopover view-name="Mark to factory" color="#ef4444">
+              <ViewPopover view-name="Mark to factory" color="red">
                 <button type="button" class="cursor-pointer">
                   <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
                 </button>

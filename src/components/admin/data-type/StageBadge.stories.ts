@@ -63,10 +63,9 @@ export const AllStages: Story = {
 
 export const CustomColorMap: Story = {
   args: {
-    stage: 'Pending review',
+    stage: 'Quote',
     colorMap: {
-      'Pending review': 'bg-violet-100 text-violet-700 border-violet-200',
-      Approved: 'bg-emerald-100 text-emerald-700 border-emerald-200'
+      Quote: 'bg-emerald-100 text-emerald-700 border-emerald-200'
     }
   }
 }

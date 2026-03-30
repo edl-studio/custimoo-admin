@@ -62,7 +62,7 @@
     },
     initialState: {
       pagination: {
-        pageSize: 1000,
+        pageSize: 50,
         pageIndex: 0
       }
     },

@@ -1,17 +1,20 @@
 <script setup lang="ts">
   import type { HTMLAttributes } from 'vue'
   import { Hash } from 'lucide-vue-next'
-  import { cn } from '@/lib/utils'
+  import CellIconText from './CellIconText.vue'
 
-  const props = defineProps<{
+  defineProps<{
     value: string | number
+    color?: 'primary' | 'secondary' | 'tertiary'
     class?: HTMLAttributes['class']
   }>()
 </script>
 
 <template>
-  <span :class="cn('flex items-center gap-1 text-foreground-secondary', props.class)">
-    <Hash class="size-4 text-foreground-tertiary" />
-    <span class="text-sm">{{ value }}</span>
-  </span>
+  <CellIconText :color="color ?? 'secondary'" :class="$props.class">
+    <template #icon>
+      <Hash class="size-4 shrink-0 text-foreground-tertiary" />
+    </template>
+    {{ value }}
+  </CellIconText>
 </template>

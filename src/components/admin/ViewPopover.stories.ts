@@ -27,7 +27,7 @@ export const NewView: Story = {
 export const EditingView: Story = {
   args: {
     viewName: 'Unfulfilled',
-    color: '#ef4444',
+    color: 'red',
     includeColumns: true,
     includeFilters: true,
     editing: true

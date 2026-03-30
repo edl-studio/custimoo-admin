@@ -18,33 +18,33 @@
     }
   )
 
-  const LETTER_COLORS: Record<string, string> = {
-    A: '#14A892',
-    B: '#E8632B',
-    C: '#2ABFA4',
-    D: '#6B7280',
-    E: '#EAB308',
-    F: '#22C55E',
-    G: '#3B82F6',
-    H: '#14B8A6',
-    I: '#6366F1',
-    J: '#F59E0B',
-    K: '#8B5CF6',
-    L: '#EC4899',
-    M: '#F97316',
-    N: '#64748B',
-    O: '#A3A3A3',
-    P: '#EF4444',
-    Q: '#78716C',
-    R: '#DC2626',
-    S: '#0EA5E9',
-    T: '#7C3AED',
-    U: '#2563EB',
-    V: '#E11D48',
-    W: '#DB2777',
-    X: '#CA8A04',
-    Y: '#EA580C',
-    Z: '#059669'
+  const LETTER_CLASSES: Record<string, string> = {
+    A: 'bg-avatar-a border-avatar-a',
+    B: 'bg-avatar-b border-avatar-b',
+    C: 'bg-avatar-c border-avatar-c',
+    D: 'bg-avatar-d border-avatar-d',
+    E: 'bg-avatar-e border-avatar-e',
+    F: 'bg-avatar-f border-avatar-f',
+    G: 'bg-avatar-g border-avatar-g',
+    H: 'bg-avatar-h border-avatar-h',
+    I: 'bg-avatar-i border-avatar-i',
+    J: 'bg-avatar-j border-avatar-j',
+    K: 'bg-avatar-k border-avatar-k',
+    L: 'bg-avatar-l border-avatar-l',
+    M: 'bg-avatar-m border-avatar-m',
+    N: 'bg-avatar-n border-avatar-n',
+    O: 'bg-avatar-o border-avatar-o',
+    P: 'bg-avatar-p border-avatar-p',
+    Q: 'bg-avatar-q border-avatar-q',
+    R: 'bg-avatar-r border-avatar-r',
+    S: 'bg-avatar-s border-avatar-s',
+    T: 'bg-avatar-t border-avatar-t',
+    U: 'bg-avatar-u border-avatar-u',
+    V: 'bg-avatar-v border-avatar-v',
+    W: 'bg-avatar-w border-avatar-w',
+    X: 'bg-avatar-x border-avatar-x',
+    Y: 'bg-avatar-y border-avatar-y',
+    Z: 'bg-avatar-z border-avatar-z'
   }
 
   const SIZE_CLASSES: Record<AvatarSize, string> = {
@@ -70,10 +70,10 @@
       .slice(0, 2)
   )
 
-  const bgColor = computed(() => {
-    if (props.icon || props.logoUrl) return '#000000'
+  const colorClass = computed(() => {
+    if (props.icon || props.logoUrl) return 'bg-black border-black'
     const letter = initials.value?.[0] ?? 'A'
-    return LETTER_COLORS[letter] ?? LETTER_COLORS.A
+    return LETTER_CLASSES[letter] ?? LETTER_CLASSES.A
   })
 </script>
 
@@ -83,10 +83,10 @@
       cn(
         'inline-flex shrink-0 items-center justify-center overflow-hidden border font-medium text-content-primary-inverse shadow-[inset_0_2px_2px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.05)]',
         SIZE_CLASSES[size],
+        colorClass,
         props.class
       )
     "
-    :style="{ backgroundColor: bgColor, borderColor: bgColor }"
   >
     <img v-if="logoUrl" :src="logoUrl" :alt="name" class="size-full object-cover" />
     <component

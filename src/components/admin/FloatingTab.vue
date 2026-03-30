@@ -2,11 +2,12 @@
   import type { HTMLAttributes } from 'vue'
   import { Hash, X } from 'lucide-vue-next'
   import { cn } from '@/lib/utils'
+  import { type ViewColor, VIEW_COLOR_BG } from '@/lib/view-colors'
 
   const props = defineProps<{
     id: string
     label: string
-    flagColor?: string
+    flagColor?: ViewColor
     class?: HTMLAttributes['class']
   }>()
 
@@ -33,9 +34,8 @@
   >
     <!-- Flag bar (optional, for orders) -->
     <div
-      v-if="flagColor"
-      class="absolute left-0 top-0 h-full w-1"
-      :style="{ backgroundColor: flagColor }"
+      v-if="flagColor && flagColor !== 'none'"
+      :class="cn('absolute left-0 top-0 h-full w-1', VIEW_COLOR_BG[flagColor])"
     />
 
     <!-- Icon slot -->

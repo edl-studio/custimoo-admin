@@ -106,6 +106,43 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Avatar letter colors */
+  --color-avatar-a: var(--avatar-a);
+  --color-avatar-b: var(--avatar-b);
+  --color-avatar-c: var(--avatar-c);
+  --color-avatar-d: var(--avatar-d);
+  --color-avatar-e: var(--avatar-e);
+  --color-avatar-f: var(--avatar-f);
+  --color-avatar-g: var(--avatar-g);
+  --color-avatar-h: var(--avatar-h);
+  --color-avatar-i: var(--avatar-i);
+  --color-avatar-j: var(--avatar-j);
+  --color-avatar-k: var(--avatar-k);
+  --color-avatar-l: var(--avatar-l);
+  --color-avatar-m: var(--avatar-m);
+  --color-avatar-n: var(--avatar-n);
+  --color-avatar-o: var(--avatar-o);
+  --color-avatar-p: var(--avatar-p);
+  --color-avatar-q: var(--avatar-q);
+  --color-avatar-r: var(--avatar-r);
+  --color-avatar-s: var(--avatar-s);
+  --color-avatar-t: var(--avatar-t);
+  --color-avatar-u: var(--avatar-u);
+  --color-avatar-v: var(--avatar-v);
+  --color-avatar-w: var(--avatar-w);
+  --color-avatar-x: var(--avatar-x);
+  --color-avatar-y: var(--avatar-y);
+  --color-avatar-z: var(--avatar-z);
+
+  /* View colors */
+  --color-view-red: var(--view-red);
+  --color-view-pink: var(--view-pink);
+  --color-view-orange: var(--view-orange);
+  --color-view-yellow: var(--view-yellow);
+  --color-view-green: var(--view-green);
+  --color-view-teal: var(--view-teal);
+  --color-view-indigo: var(--view-indigo);
 }
 
 /*
@@ -202,6 +239,43 @@
   --ring: oklch(0.656 0.117 178.7 / 0.5); /* #14A892 @ 50% — admin/colors/border-focused */
   --overlay: oklch(0.214 0.009 43 / 0.8); /* beige-950 @ 80% */
   --disabled: oklch(0.937 0.012 75.3); /* #EFE9E1 — admin/colors/disabled (beige-100) */
+
+  /* ── Avatar letter colors ── */
+  --avatar-a: #14a892;
+  --avatar-b: #e8632b;
+  --avatar-c: #2abfa4;
+  --avatar-d: #6b7280;
+  --avatar-e: #eab308;
+  --avatar-f: #22c55e;
+  --avatar-g: #3b82f6;
+  --avatar-h: #14b8a6;
+  --avatar-i: #6366f1;
+  --avatar-j: #f59e0b;
+  --avatar-k: #8b5cf6;
+  --avatar-l: #ec4899;
+  --avatar-m: #f97316;
+  --avatar-n: #64748b;
+  --avatar-o: #a3a3a3;
+  --avatar-p: #ef4444;
+  --avatar-q: #78716c;
+  --avatar-r: #dc2626;
+  --avatar-s: #0ea5e9;
+  --avatar-t: #7c3aed;
+  --avatar-u: #2563eb;
+  --avatar-v: #e11d48;
+  --avatar-w: #db2777;
+  --avatar-x: #ca8a04;
+  --avatar-y: #ea580c;
+  --avatar-z: #059669;
+
+  /* ── View colors ── */
+  --view-red: #ef4444;
+  --view-pink: #ec4899;
+  --view-orange: #f97316;
+  --view-yellow: #eab308;
+  --view-green: #22c55e;
+  --view-teal: #14b8a6;
+  --view-indigo: #6366f1;
 
   /* ── Chart / data visualization ── */
   --chart-1: oklch(0.646 0.194 41.1); /* #EA580C */

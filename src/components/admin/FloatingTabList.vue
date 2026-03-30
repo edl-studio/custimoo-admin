@@ -3,14 +3,17 @@
   import type { HTMLAttributes } from 'vue'
   import { ChevronUp, ChevronDown, Copy, Ellipsis, Search, X } from 'lucide-vue-next'
   import { cn } from '@/lib/utils'
+  import { type ViewColor, VIEW_COLOR_BG } from '@/lib/view-colors'
   import TextInput from './TextInput.vue'
-  import type { SheetState } from '@/composables/useSheet'
+
+  export interface FloatingTabItem {
+    id: string
+    label: string
+    flagColor?: ViewColor
+  }
 
   const props = defineProps<{
-    sheets: SheetState[]
-    getLabel: (sheet: SheetState) => string
-    getId: (sheet: SheetState) => string
-    getFlagColor?: (sheet: SheetState) => string | undefined
+    items: FloatingTabItem[]
     class?: HTMLAttributes['class']
   }>()
 
@@ -24,17 +27,15 @@
   const searchQuery = ref('')
   const searchInput = ref<InstanceType<typeof TextInput>>()
 
-  const filteredSheets = computed(() => {
-    if (!searchQuery.value) return props.sheets
+  const filteredItems = computed(() => {
+    if (!searchQuery.value) return props.items
     const q = searchQuery.value.toLowerCase()
-    return props.sheets.filter(s => {
-      const label = props.getLabel(s).toLowerCase()
-      const id = props.getId(s).toLowerCase()
-      return label.includes(q) || id.includes(q)
+    return props.items.filter(item => {
+      return item.label.toLowerCase().includes(q) || item.id.toLowerCase().includes(q)
     })
   })
 
-  const hasSheets = computed(() => props.sheets.length > 0)
+  const hasItems = computed(() => props.items.length > 0)
 
   const WIDTH_DURATION = 300
 
@@ -122,7 +123,7 @@
       <div v-if="expanded" class="grid">
         <div class="overflow-hidden">
           <!-- Empty state -->
-          <div v-if="!hasSheets" class="flex flex-col items-center px-4 pt-8 pb-8 gap-5">
+          <div v-if="!hasItems" class="flex flex-col items-center px-4 pt-8 pb-8 gap-5">
             <!-- Info section -->
             <div class="flex flex-col items-center gap-2">
               <img src="/illustrations/drawer.png" alt="" class="size-14" />
@@ -150,12 +151,7 @@
             <!-- Search + tab list group -->
             <div class="flex flex-col gap-3 px-4 pt-3 pb-4">
               <!-- Search -->
-              <TextInput
-                ref="searchInput"
-                v-model="searchQuery"
-                placeholder="Search..."
-                size="compact"
-              >
+              <TextInput ref="searchInput" v-model="searchQuery" placeholder="Search..." size="sm">
                 <template #icon>
                   <Search class="size-4 text-muted-foreground" />
                 </template>
@@ -165,38 +161,35 @@
               <div class="max-h-[304px] overflow-y-auto">
                 <div class="flex flex-col gap-1.5">
                   <button
-                    v-for="sheet in filteredSheets"
-                    :key="sheet.id"
+                    v-for="item in filteredItems"
+                    :key="item.id"
                     type="button"
                     class="group relative flex h-11 w-full cursor-pointer items-center gap-1 overflow-hidden rounded-lg border border-border bg-card px-3"
-                    @click="emit('restore', sheet.id)"
+                    @click="emit('restore', item.id)"
                   >
                     <!-- Flag bar -->
                     <div
-                      v-if="getFlagColor?.(sheet)"
-                      class="absolute left-0 top-0 h-full w-1"
-                      :style="{ backgroundColor: getFlagColor!(sheet) }"
+                      v-if="item.flagColor && item.flagColor !== 'none'"
+                      :class="cn('absolute left-0 top-0 h-full w-1', VIEW_COLOR_BG[item.flagColor])"
                     />
 
                     <!-- Icon slot -->
                     <div class="flex size-6 shrink-0 items-center justify-center">
-                      <slot name="icon" :sheet="sheet" />
+                      <slot name="icon" :item="item" />
                     </div>
 
                     <!-- Content -->
                     <div class="flex min-w-0 flex-1 items-center gap-1">
-                      <span class="shrink-0 text-sm text-foreground-tertiary">{{
-                        getId(sheet)
-                      }}</span>
+                      <span class="shrink-0 text-sm text-foreground-tertiary">{{ item.id }}</span>
                       <span class="truncate text-sm font-medium text-foreground">
-                        {{ getLabel(sheet) }}
+                        {{ item.label }}
                       </span>
                     </div>
 
                     <!-- Close -->
                     <div
                       class="flex size-6 shrink-0 items-center justify-center rounded opacity-0 hover:bg-controls-hover group-hover:opacity-100"
-                      @click.stop="emit('close', sheet.id)"
+                      @click.stop="emit('close', item.id)"
                     >
                       <X class="size-3.5 text-foreground-tertiary" />
                     </div>
@@ -204,7 +197,7 @@
                 </div>
 
                 <div
-                  v-if="filteredSheets.length === 0"
+                  v-if="filteredItems.length === 0"
                   class="px-3 py-6 text-center text-sm text-foreground-tertiary"
                 >
                   No tabs found

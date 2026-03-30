@@ -2,7 +2,7 @@
   import type { HTMLAttributes } from 'vue'
   import { computed } from 'vue'
   import { CalendarDays } from 'lucide-vue-next'
-  import { cn } from '@/lib/utils'
+  import CellIconText from './CellIconText.vue'
 
   const props = withDefaults(
     defineProps<{
@@ -36,25 +36,21 @@
 </script>
 
 <template>
-  <span
+  <CellIconText
     v-if="highlightToday && isToday"
-    :class="
-      cn(
-        'flex items-center gap-2 text-sm font-medium text-destructive whitespace-nowrap',
-        props.class
-      )
-    "
+    color="primary"
+    weight="medium"
+    :class="['text-destructive whitespace-nowrap', $props.class]"
   >
-    <CalendarDays class="size-4 shrink-0" />
+    <template #icon>
+      <CalendarDays class="size-4 shrink-0" />
+    </template>
     Today
-  </span>
-  <span
-    v-else
-    :class="
-      cn('flex items-center gap-2 text-sm text-foreground-tertiary whitespace-nowrap', props.class)
-    "
-  >
-    <CalendarDays class="size-4 shrink-0" />
+  </CellIconText>
+  <CellIconText v-else color="tertiary" :class="['whitespace-nowrap', $props.class]">
+    <template #icon>
+      <CalendarDays class="size-4 shrink-0" />
+    </template>
     {{ formatted }}
-  </span>
+  </CellIconText>
 </template>

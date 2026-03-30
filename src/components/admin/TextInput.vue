@@ -12,13 +12,13 @@
       placeholder?: string
       modelValue?: string | number
       defaultValue?: string | number
-      size?: 'compact' | 'default' | 'lg'
+      size?: 'sm' | 'md' | 'lg'
       error?: string
       disabled?: boolean
       type?: string
     }>(),
     {
-      size: 'default',
+      size: 'md',
       type: 'text'
     }
   )
@@ -46,7 +46,7 @@
         :class="
           cn(
             'pointer-events-none absolute inset-y-0 left-0 flex items-center',
-            size === 'lg' ? 'pl-3.5' : size === 'compact' ? 'pl-2.5' : 'pl-3'
+            size === 'lg' ? 'pl-3.5' : size === 'sm' ? 'pl-2.5' : 'pl-3'
           )
         "
       >
@@ -71,10 +71,10 @@
             'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-disabled disabled:text-content-disabled disabled:border-transparent disabled:shadow-none',
             size === 'lg'
               ? 'h-11 px-3.5 text-base'
-              : size === 'compact'
+              : size === 'sm'
                 ? 'h-8 px-2.5 text-sm'
                 : 'h-9 px-3 text-sm',
-            $slots.icon && (size === 'lg' ? 'pl-10' : size === 'compact' ? 'pl-8' : 'pl-9')
+            $slots.icon && (size === 'lg' ? 'pl-10' : size === 'sm' ? 'pl-8' : 'pl-9')
           )
         "
         @input="onInput"

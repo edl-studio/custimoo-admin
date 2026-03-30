@@ -47,7 +47,7 @@ export const ActiveEditable: Story = {
 export const WithColorIndicator: Story = {
   args: {
     active: true,
-    indicatorColor: '#6366f1'
+    indicatorColor: 'indigo'
   },
   render: args => ({
     components: { TabViewItem },
@@ -63,8 +63,8 @@ export const TabBar: Story = {
       <div class="flex border-b border-border">
         <TabViewItem active>All orders</TabViewItem>
         <TabViewItem>Unfulfilled</TabViewItem>
-        <TabViewItem indicator-color="#22c55e">Completed</TabViewItem>
-        <TabViewItem indicator-color="#ef4444">Cancelled</TabViewItem>
+        <TabViewItem indicator-color="green">Completed</TabViewItem>
+        <TabViewItem indicator-color="red">Cancelled</TabViewItem>
       </div>
     `
   })
