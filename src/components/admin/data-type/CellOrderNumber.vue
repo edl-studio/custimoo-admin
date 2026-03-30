@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <span :class="cn('inline-flex items-center gap-1 text-foreground-secondary', props.class)">
+  <span :class="cn('flex items-center gap-1 text-foreground-secondary', props.class)">
     <Hash class="size-4 text-foreground-tertiary" />
     <span class="text-sm">{{ value }}</span>
   </span>
