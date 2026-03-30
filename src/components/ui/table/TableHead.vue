@@ -4,6 +4,7 @@
 
   const props = defineProps<{
     class?: HTMLAttributes['class']
+    width?: number
   }>()
 </script>
 
@@ -15,6 +16,7 @@
         props.class
       )
     "
+    :style="props.width ? { width: `${props.width}px` } : undefined"
   >
     <slot />
   </th>

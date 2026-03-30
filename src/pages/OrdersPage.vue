@@ -91,12 +91,11 @@
     { id: 'customer', label: 'Customer' },
     { id: 'qty', label: 'Quantity' },
     { id: 'stage', label: 'Stage' },
-    { id: 'currentStep', label: 'Current Step' },
     { id: 'sinceAction', label: 'Since action' },
     { id: 'factory', label: 'Factory' },
     { id: 'orderDate', label: 'Order date' },
     { id: 'dueDate', label: 'Due date' },
-    { id: 'estShipping', label: 'Est. Shipping' },
+    { id: 'estShipping', label: 'Est. shipping' },
     { id: 'reference', label: 'Reference' },
     { id: 'invoiceStatus', label: 'Invoice status' },
     { id: 'administrator', label: 'Administrator' },
@@ -154,7 +153,7 @@
     },
     {
       accessorKey: 'orderId',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order ID' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order id' }),
       cell: ({ row }) => {
         const order = row.original
         const badges = []
@@ -182,9 +181,9 @@
     },
     {
       accessorKey: 'qty',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'QTY' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Qty' }),
       cell: ({ row }) => h(CellText, { color: 'secondary' }, () => String(row.getValue('qty'))),
-      size: 70
+      size: 44
     },
     {
       accessorKey: 'stage',
@@ -193,14 +192,8 @@
       size: 160
     },
     {
-      accessorKey: 'currentStep',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Current Step' }),
-      cell: ({ row }) =>
-        h(CellText, { color: 'secondary' }, () => row.getValue('currentStep') as string)
-    },
-    {
       accessorKey: 'sinceAction',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Since Action' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Since action' }),
       cell: ({ row }) =>
         h(CellText, { color: 'tertiary' }, () => row.getValue('sinceAction') as string),
       size: 100
@@ -220,20 +213,20 @@
     },
     {
       accessorKey: 'orderDate',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order Date' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Order date' }),
       cell: ({ row }) => h(CellDate, { date: row.getValue('orderDate') as string }),
       size: 100
     },
     {
       accessorKey: 'dueDate',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Due Date' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Due date' }),
       cell: ({ row }) =>
         h(CellDate, { date: row.getValue('dueDate') as string, highlightToday: true }),
       size: 100
     },
     {
       accessorKey: 'estShipping',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Est. Shipping' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Est. shipping' }),
       cell: ({ row }) => h(CellDate, { date: row.getValue('estShipping') as string }),
       size: 110
     },
@@ -246,7 +239,7 @@
     },
     {
       accessorKey: 'invoiceStatus',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Invoice Status' }),
+      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Invoice status' }),
       cell: ({ row }) =>
         h(CellText, { color: 'secondary' }, () => row.getValue('invoiceStatus') as string),
       size: 110
