@@ -149,7 +149,7 @@
         }),
       enableSorting: false,
       enableHiding: false,
-      size: 40
+      size: 32
     },
     {
       accessorKey: 'orderId',
