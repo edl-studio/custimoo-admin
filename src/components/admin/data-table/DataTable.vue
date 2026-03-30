@@ -141,10 +141,8 @@
             <TableHead
               v-for="header in headerGroup.headers"
               :key="header.id"
-              :style="{
-                width: header.getSize() !== 150 ? `${header.getSize()}px` : undefined,
-                ...getPinningStyles(header.column.id)
-              }"
+              :width="header.getSize() !== 150 ? header.getSize() : undefined"
+              :style="getPinningStyles(header.column.id)"
               :class="getPinningClasses(header.column.id)"
             >
               <FlexRender
