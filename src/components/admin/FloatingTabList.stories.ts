@@ -44,3 +44,11 @@ export const WithFlagColors: Story = {
     }
   }
 }
+
+export const Empty: Story = {
+  args: {
+    sheets: [],
+    getLabel: () => '',
+    getId: () => ''
+  }
+}
