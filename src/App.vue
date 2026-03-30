@@ -11,6 +11,7 @@
     Factory,
     Grid2x2,
     LayoutDashboard,
+    Minus,
     Moon,
     Package,
     PenLine,
@@ -41,6 +42,16 @@
     computed(() => false)
   )
   const sheetTransition = computed(() => (isStackedSheets.value ? 'sheet-swap' : 'sheet'))
+
+  const tabItems = computed(() =>
+    sheets.value.map(s => {
+      const order = s.data as Order
+      return {
+        id: order.orderId,
+        label: `${order.merchant} - ${order.customer}`
+      }
+    })
+  )
 
   function getSheetLabel(sheet: SheetState) {
     const order = sheet.data as Order
@@ -97,12 +108,7 @@
     <template #sheets>
       <TransitionGroup :name="sheetTransition">
         <SheetContent v-for="(sheet, index) in visibleSheets" :key="sheet.id">
-          <SheetHeader
-            show-minimize
-            show-fullscreen
-            @minimize="minimize(sheet.id)"
-            @close="close(sheet.id)"
-          >
+          <SheetHeader @close="close(sheet.id)">
             <template #leading>
               <span
                 v-if="hiddenCount > 0 && index === 0"
@@ -115,6 +121,11 @@
               </Button>
               <Button variant="default" size="icon">
                 <Bell />
+              </Button>
+            </template>
+            <template #trailing>
+              <Button variant="ghost" size="icon" @click="minimize(sheet.id)">
+                <Minus />
               </Button>
             </template>
           </SheetHeader>
@@ -146,13 +157,7 @@
       </FloatingTab>
     </TransitionGroup>
 
-    <FloatingTabList
-      :sheets="sheets"
-      :get-label="getSheetLabel"
-      :get-id="getSheetId"
-      @restore="handleTabRestore"
-      @close="close"
-    >
+    <FloatingTabList :items="tabItems" @restore="handleTabRestore" @close="close">
       <template #icon>
         <Moon class="size-4 text-primary" />
       </template>

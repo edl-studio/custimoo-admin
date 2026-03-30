@@ -2,11 +2,12 @@
   import type { HTMLAttributes } from 'vue'
   import { PenLine } from 'lucide-vue-next'
   import { cn } from '@/lib/utils'
+  import { type ViewColor, VIEW_COLOR_BG, VIEW_COLOR_BORDER } from '@/lib/view-colors'
 
   const props = defineProps<{
     active?: boolean
     editable?: boolean
-    indicatorColor?: string
+    indicatorColor?: ViewColor
     class?: HTMLAttributes['class']
   }>()
 </script>
@@ -30,11 +31,13 @@
       <!-- Color indicator dot -->
       <span
         v-if="indicatorColor"
-        class="size-2 shrink-0 rounded-full border"
-        :style="{
-          backgroundColor: indicatorColor,
-          borderColor: indicatorColor
-        }"
+        :class="
+          cn(
+            'size-2 shrink-0 rounded-full border',
+            VIEW_COLOR_BG[indicatorColor],
+            VIEW_COLOR_BORDER[indicatorColor]
+          )
+        "
       />
 
       <!-- Label -->
@@ -60,9 +63,12 @@
     <!-- Active underline -->
     <span
       v-if="active"
-      class="absolute inset-x-3 bottom-0 h-0.5 rounded-full"
-      :class="indicatorColor ? '' : 'bg-primary'"
-      :style="indicatorColor ? { backgroundColor: indicatorColor } : undefined"
+      :class="
+        cn(
+          'absolute inset-x-3 bottom-0 h-0.5 rounded-full',
+          indicatorColor ? VIEW_COLOR_BG[indicatorColor] : 'bg-primary'
+        )
+      "
     />
   </div>
 </template>

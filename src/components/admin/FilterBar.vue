@@ -23,6 +23,7 @@
   const emit = defineEmits<{
     'filter-click': [key: string]
     'filter-clear': [key: string]
+    'update:activeFilters': [value: Record<string, string | null>]
   }>()
 
   const containerRef = ref<HTMLElement>()

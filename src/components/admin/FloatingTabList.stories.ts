@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import FloatingTabList from './FloatingTabList.vue'
-import type { SheetState } from '@/composables/useSheet'
+import type { FloatingTabItem } from './FloatingTabList.vue'
 
 const meta = {
   title: 'Admin/Sheets/FloatingTabList',
@@ -16,39 +16,34 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const mockSheets: SheetState[] = [
-  { id: 'order-1', type: 'order', data: { number: '1042', name: 'John Doe' } },
-  { id: 'order-2', type: 'order', data: { number: '1043', name: 'Jane Smith' } },
-  { id: 'order-3', type: 'order', data: { number: '1044', name: 'Bob Johnson' } },
-  { id: 'order-4', type: 'order', data: { number: '1045', name: 'Alice Williams' } },
-  { id: 'order-5', type: 'order', data: { number: '1046', name: 'Charlie Brown' } }
+const mockItems: FloatingTabItem[] = [
+  { id: '1042', label: 'John Doe' },
+  { id: '1043', label: 'Jane Smith' },
+  { id: '1044', label: 'Bob Johnson' },
+  { id: '1045', label: 'Alice Williams' },
+  { id: '1046', label: 'Charlie Brown' }
 ]
 
 export const Collapsed: Story = {
   args: {
-    sheets: mockSheets,
-    getLabel: (s: SheetState) => (s.data as { name: string }).name,
-    getId: (s: SheetState) => (s.data as { number: string }).number
+    items: mockItems
   }
 }
 
 export const WithFlagColors: Story = {
   args: {
-    sheets: mockSheets,
-    getLabel: (s: SheetState) => (s.data as { name: string }).name,
-    getId: (s: SheetState) => (s.data as { number: string }).number,
-    getFlagColor: (s: SheetState) => {
-      const colors = ['#ef4444', '#f97316', '#22c55e', '#3b82f6', '#a855f7']
-      const idx = mockSheets.indexOf(s)
-      return colors[idx]
-    }
+    items: [
+      { id: '1042', label: 'John Doe', flagColor: 'red' },
+      { id: '1043', label: 'Jane Smith', flagColor: 'orange' },
+      { id: '1044', label: 'Bob Johnson', flagColor: 'green' },
+      { id: '1045', label: 'Alice Williams', flagColor: 'teal' },
+      { id: '1046', label: 'Charlie Brown', flagColor: 'indigo' }
+    ]
   }
 }
 
 export const Empty: Story = {
   args: {
-    sheets: [],
-    getLabel: () => '',
-    getId: () => ''
+    items: []
   }
 }

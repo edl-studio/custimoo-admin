@@ -6,7 +6,7 @@
     defineProps<{
       color?: 'primary' | 'secondary' | 'tertiary'
       weight?: 'regular' | 'medium'
-      size?: 'sm' | 'base'
+      size?: 'sm' | 'md'
       mono?: boolean
       truncate?: boolean
       class?: HTMLAttributes['class']
@@ -14,7 +14,7 @@
     {
       color: 'secondary',
       weight: 'regular',
-      size: 'base',
+      size: 'md',
       truncate: true
     }
   )
@@ -30,7 +30,7 @@
           'text-foreground-tertiary': color === 'tertiary',
           'font-medium': weight === 'medium',
           'text-xs': size === 'sm',
-          'text-sm': size === 'base',
+          'text-sm': size === 'md',
           'font-mono': mono,
           truncate: truncate
         },

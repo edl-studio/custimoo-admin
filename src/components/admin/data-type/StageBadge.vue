@@ -3,13 +3,25 @@
   import { computed } from 'vue'
   import { cn } from '@/lib/utils'
 
+  export type Stage =
+    | 'Misc'
+    | 'Quote'
+    | 'Order approval'
+    | 'Sample production'
+    | 'Sample file'
+    | 'Production files'
+    | 'In production'
+    | 'Quality control'
+    | 'Shipping'
+    | 'Completed'
+
   const props = defineProps<{
-    stage: string
-    colorMap?: Record<string, string>
+    stage: Stage
+    colorMap?: Partial<Record<Stage, string>>
     class?: HTMLAttributes['class']
   }>()
 
-  const defaultColorMap: Record<string, string> = {
+  const defaultColorMap: Record<Stage, string> = {
     Misc: 'bg-gray-100 text-gray-700 border-gray-200',
     Quote: 'bg-violet-100 text-violet-700 border-violet-200',
     'Order approval': 'bg-blue-100 text-blue-700 border-blue-200',

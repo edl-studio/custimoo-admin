@@ -27,7 +27,7 @@ export const WithFlagColor: Story = {
   args: {
     id: '1042',
     label: 'John Doe',
-    flagColor: '#ef4444'
+    flagColor: 'red'
   }
 }
 

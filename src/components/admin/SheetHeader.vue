@@ -1,19 +1,14 @@
 <script setup lang="ts">
   import type { HTMLAttributes } from 'vue'
-  import { Minus, Maximize2, Minimize2, X } from 'lucide-vue-next'
+  import { X } from 'lucide-vue-next'
   import { Button } from '@/components/ui/button'
   import { cn } from '@/lib/utils'
 
   const props = defineProps<{
-    isFullscreen?: boolean
-    showMinimize?: boolean
-    showFullscreen?: boolean
     class?: HTMLAttributes['class']
   }>()
 
   const emit = defineEmits<{
-    minimize: []
-    'toggle-fullscreen': []
     close: []
   }>()
 </script>
@@ -29,15 +24,9 @@
       <slot name="leading" />
     </div>
 
-    <!-- Trailing actions: minimize, fullscreen, close -->
+    <!-- Trailing actions: custom slot + close -->
     <div class="flex items-center">
-      <Button v-if="showMinimize" variant="ghost" size="icon" @click="emit('minimize')">
-        <Minus />
-      </Button>
-      <Button v-if="showFullscreen" variant="ghost" size="icon" @click="emit('toggle-fullscreen')">
-        <Maximize2 v-if="!isFullscreen" />
-        <Minimize2 v-else />
-      </Button>
+      <slot name="trailing" />
       <Button variant="ghost" size="icon" @click="emit('close')">
         <X />
       </Button>

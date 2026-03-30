@@ -6,10 +6,12 @@
   import { Switch } from '@/components/ui/switch'
   import { Separator } from '@/components/ui/separator'
   import { Button } from '@/components/ui/button'
+  import { cn } from '@/lib/utils'
+  import { type ViewColor, VIEW_COLOR_BG, VIEW_COLOR_BORDER } from '@/lib/view-colors'
 
   const props = defineProps<{
     viewName?: string
-    color?: string
+    color?: ViewColor
     includeColumns?: boolean
     includeFilters?: boolean
     editing?: boolean
@@ -17,7 +19,7 @@
 
   const emit = defineEmits<{
     save: [
-      payload: { name: string; color: string; includeColumns: boolean; includeFilters: boolean }
+      payload: { name: string; color: ViewColor; includeColumns: boolean; includeFilters: boolean }
     ]
     delete: []
     copyLink: []
@@ -29,26 +31,17 @@
 
   const open = ref(false)
   const viewName = ref(props.viewName ?? '')
-  const selectedColor = ref(props.color ?? '#6366f1')
+  const selectedColor = ref<ViewColor>(props.color ?? 'indigo')
   const columns = ref(props.includeColumns ?? true)
   const filters = ref(props.includeFilters ?? true)
   const isGlobal = ref(false)
 
-  const colors = [
-    { value: 'none', bg: 'transparent', border: '#DCD1C6' },
-    { value: '#ef4444', bg: '#ef4444', border: '#ef4444' },
-    { value: '#ec4899', bg: '#ec4899', border: '#ec4899' },
-    { value: '#f97316', bg: '#f97316', border: '#f97316' },
-    { value: '#eab308', bg: '#eab308', border: '#eab308' },
-    { value: '#22c55e', bg: '#22c55e', border: '#22c55e' },
-    { value: '#14b8a6', bg: '#14b8a6', border: '#14b8a6' },
-    { value: '#6366f1', bg: '#6366f1', border: '#6366f1' }
-  ]
+  const colors: ViewColor[] = ['none', 'red', 'pink', 'orange', 'yellow', 'green', 'teal', 'indigo']
 
   watch(open, isOpen => {
     if (isOpen) {
       viewName.value = props.viewName ?? ''
-      selectedColor.value = props.color ?? '#6366f1'
+      selectedColor.value = props.color ?? 'indigo'
       columns.value = props.includeColumns ?? true
       filters.value = props.includeFilters ?? true
       isGlobal.value = false
@@ -90,11 +83,13 @@
       <div class="p-1">
         <div class="flex h-9 items-center gap-2 rounded-md px-3 hover:bg-secondary">
           <span
-            class="size-2 shrink-0 rounded-full border"
-            :style="{
-              backgroundColor: selectedColor === 'none' ? 'transparent' : selectedColor,
-              borderColor: selectedColor === 'none' ? '#DCD1C6' : selectedColor
-            }"
+            :class="
+              cn(
+                'size-2 shrink-0 rounded-full border',
+                VIEW_COLOR_BG[selectedColor],
+                VIEW_COLOR_BORDER[selectedColor]
+              )
+            "
           />
           <input
             v-model="viewName"
@@ -111,20 +106,20 @@
       <div class="flex items-center gap-2 px-3 py-3">
         <button
           v-for="c in colors"
-          :key="c.value"
-          class="relative flex size-4 items-center justify-center rounded-full border"
-          :style="{
-            backgroundColor: c.bg,
-            borderColor: c.border
-          }"
-          @click="selectedColor = c.value"
+          :key="c"
+          :class="
+            cn(
+              'relative flex size-4 items-center justify-center rounded-full border',
+              VIEW_COLOR_BG[c],
+              VIEW_COLOR_BORDER[c]
+            )
+          "
+          @click="selectedColor = c"
         >
           <Check
-            v-if="selectedColor === c.value"
+            v-if="selectedColor === c"
             class="size-2.5"
-            :class="
-              c.value === 'none' ? 'text-foreground-tertiary' : 'text-content-primary-inverse'
-            "
+            :class="c === 'none' ? 'text-foreground-tertiary' : 'text-content-primary-inverse'"
           />
         </button>
       </div>

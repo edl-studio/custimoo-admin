@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { Minus, Maximize2 } from 'lucide-vue-next'
 import SheetHeader from './SheetHeader.vue'
+import { Button } from '@/components/ui/button'
 
 const meta = {
   title: 'Admin/Sheets/SheetHeader',
@@ -19,45 +21,32 @@ export const Default: Story = {
   args: {}
 }
 
-export const WithMinimize: Story = {
-  args: {
-    showMinimize: true
-  }
-}
-
-export const WithFullscreen: Story = {
-  args: {
-    showFullscreen: true
-  }
-}
-
-export const AllControls: Story = {
-  args: {
-    showMinimize: true,
-    showFullscreen: true
-  }
-}
-
-export const FullscreenActive: Story = {
-  args: {
-    showMinimize: true,
-    showFullscreen: true,
-    isFullscreen: true
-  }
+export const WithTrailingActions: Story = {
+  render: args => ({
+    components: { SheetHeader, Button, Minus, Maximize2 },
+    setup: () => ({ args }),
+    template: `
+      <SheetHeader v-bind="args">
+        <template #trailing>
+          <Button variant="ghost" size="icon"><Minus /></Button>
+          <Button variant="ghost" size="icon"><Maximize2 /></Button>
+        </template>
+      </SheetHeader>
+    `
+  })
 }
 
 export const WithLeadingContent: Story = {
-  args: {
-    showMinimize: true,
-    showFullscreen: true
-  },
   render: args => ({
-    components: { SheetHeader },
+    components: { SheetHeader, Button, Minus },
     setup: () => ({ args }),
     template: `
       <SheetHeader v-bind="args">
         <template #leading>
           <span class="text-sm font-medium text-foreground">Order #1042</span>
+        </template>
+        <template #trailing>
+          <Button variant="ghost" size="icon"><Minus /></Button>
         </template>
       </SheetHeader>
     `
