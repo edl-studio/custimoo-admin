@@ -60,6 +60,12 @@
     get columns() {
       return props.columns
     },
+    initialState: {
+      pagination: {
+        pageSize: 1000,
+        pageIndex: 0
+      }
+    },
     state: {
       get sorting() {
         return sorting.value

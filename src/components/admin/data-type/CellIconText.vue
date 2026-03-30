@@ -23,7 +23,7 @@
   <span
     :class="
       cn(
-        'inline-flex items-center gap-2',
+        'flex items-center gap-2',
         {
           'text-foreground': color === 'primary',
           'text-foreground-secondary': color === 'secondary',

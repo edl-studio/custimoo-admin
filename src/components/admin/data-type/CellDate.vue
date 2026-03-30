@@ -40,7 +40,7 @@
     v-if="highlightToday && isToday"
     :class="
       cn(
-        'inline-flex items-center gap-2 text-sm font-medium text-destructive whitespace-nowrap',
+        'flex items-center gap-2 text-sm font-medium text-destructive whitespace-nowrap',
         props.class
       )
     "
@@ -51,10 +51,7 @@
   <span
     v-else
     :class="
-      cn(
-        'inline-flex items-center gap-2 text-sm text-foreground-tertiary whitespace-nowrap',
-        props.class
-      )
+      cn('flex items-center gap-2 text-sm text-foreground-tertiary whitespace-nowrap', props.class)
     "
   >
     <CalendarDays class="size-4 shrink-0" />

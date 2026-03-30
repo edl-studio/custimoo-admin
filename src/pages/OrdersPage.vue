@@ -266,90 +266,92 @@
 
 <template>
   <div class="space-y-0">
-    <!-- Page header -->
-    <PageHeader title="Orders">
-      <template #actions>
-        <TextInput v-model="searchQuery" placeholder="Search" size="compact" class="w-56">
-          <template #icon>
-            <Search class="size-4 text-muted-foreground" />
-          </template>
-        </TextInput>
-        <ResponsiveButton variant="outline" label="Export">
-          <Download class="size-4" />
-        </ResponsiveButton>
-        <ResponsiveButton variant="primary" label="Create order">
-          <Plus class="size-4" />
-        </ResponsiveButton>
-      </template>
-    </PageHeader>
+    <div class="sticky top-0 z-10 bg-card">
+      <!-- Page header -->
+      <PageHeader title="Orders">
+        <template #actions>
+          <TextInput v-model="searchQuery" placeholder="Search" size="compact" class="w-56">
+            <template #icon>
+              <Search class="size-4 text-muted-foreground" />
+            </template>
+          </TextInput>
+          <ResponsiveButton variant="outline" label="Export">
+            <Download class="size-4" />
+          </ResponsiveButton>
+          <ResponsiveButton variant="primary" label="Create order">
+            <Plus class="size-4" />
+          </ResponsiveButton>
+        </template>
+      </PageHeader>
 
-    <!-- Tab bar -->
-    <div class="flex h-12 items-center border-b border-border px-2">
-      <!-- Tab group -->
-      <div class="flex items-center gap-1">
-        <TabViewItem :active="activeTab === 'all'" @click="activeTab = 'all'">
-          All orders
-          <span class="ml-1 text-xs text-foreground-tertiary">{{ orders.length }}</span>
-        </TabViewItem>
-        <TabViewItem
-          :active="activeTab === 'invoice'"
-          editable
-          indicator-color="#6366f1"
-          @click="activeTab = 'invoice'"
-        >
-          Invoice dashboard
-          <template #edit>
-            <ViewPopover view-name="Invoice dashboard" color="#6366f1">
-              <button type="button" class="cursor-pointer">
-                <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
-              </button>
-            </ViewPopover>
-          </template>
-        </TabViewItem>
-        <TabViewItem
-          :active="activeTab === 'factory'"
-          editable
-          indicator-color="#ef4444"
-          @click="activeTab = 'factory'"
-        >
-          Mark to factory
-          <template #edit>
-            <ViewPopover view-name="Mark to factory" color="#ef4444">
-              <button type="button" class="cursor-pointer">
-                <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
-              </button>
-            </ViewPopover>
-          </template>
-        </TabViewItem>
+      <!-- Tab bar -->
+      <div class="flex h-12 items-center border-b border-border px-2">
+        <!-- Tab group -->
+        <div class="flex items-center gap-1">
+          <TabViewItem :active="activeTab === 'all'" @click="activeTab = 'all'">
+            All orders
+            <span class="ml-1 text-xs text-foreground-tertiary">{{ orders.length }}</span>
+          </TabViewItem>
+          <TabViewItem
+            :active="activeTab === 'invoice'"
+            editable
+            indicator-color="#6366f1"
+            @click="activeTab = 'invoice'"
+          >
+            Invoice dashboard
+            <template #edit>
+              <ViewPopover view-name="Invoice dashboard" color="#6366f1">
+                <button type="button" class="cursor-pointer">
+                  <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
+                </button>
+              </ViewPopover>
+            </template>
+          </TabViewItem>
+          <TabViewItem
+            :active="activeTab === 'factory'"
+            editable
+            indicator-color="#ef4444"
+            @click="activeTab = 'factory'"
+          >
+            Mark to factory
+            <template #edit>
+              <ViewPopover view-name="Mark to factory" color="#ef4444">
+                <button type="button" class="cursor-pointer">
+                  <PenLine class="size-3.5 text-foreground-tertiary hover:text-foreground" />
+                </button>
+              </ViewPopover>
+            </template>
+          </TabViewItem>
+        </div>
+
+        <!-- Divider -->
+        <div class="mx-2 h-8 w-px bg-border" />
+
+        <!-- Save view -->
+        <ViewPopover>
+          <Button variant="ghost">Save view</Button>
+        </ViewPopover>
       </div>
 
-      <!-- Divider -->
-      <div class="mx-2 h-8 w-px bg-border" />
-
-      <!-- Save view -->
-      <ViewPopover>
-        <Button variant="ghost">Save view</Button>
-      </ViewPopover>
-    </div>
-
-    <!-- Filter bar -->
-    <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-      <FilterBar
-        :filters="filters"
-        :active-filters="activeFilters"
-        @filter-click="handleFilterClick"
-        @filter-clear="handleFilterClear"
-      />
-      <div class="flex shrink-0 items-center gap-3">
-        <span class="text-sm text-foreground-tertiary">{{ filteredOrders.length }} orders</span>
-        <ColumnPopover
-          :columns="columnItems"
-          v-model:visible-ids="visibleColumnIds"
-          v-model:order="columnOrder"
-          @restore-default="restoreDefaultColumns"
-        >
-          <FilterChip label="Columns" :icon="Columns3" />
-        </ColumnPopover>
+      <!-- Filter bar -->
+      <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <FilterBar
+          :filters="filters"
+          :active-filters="activeFilters"
+          @filter-click="handleFilterClick"
+          @filter-clear="handleFilterClear"
+        />
+        <div class="flex shrink-0 items-center gap-3">
+          <span class="text-sm text-foreground-tertiary">{{ filteredOrders.length }} orders</span>
+          <ColumnPopover
+            :columns="columnItems"
+            v-model:visible-ids="visibleColumnIds"
+            v-model:order="columnOrder"
+            @restore-default="restoreDefaultColumns"
+          >
+            <FilterChip label="Columns" :icon="Columns3" />
+          </ColumnPopover>
+        </div>
       </div>
     </div>
 
