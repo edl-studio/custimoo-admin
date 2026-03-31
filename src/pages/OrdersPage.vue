@@ -15,6 +15,7 @@
     FileText,
     Search,
     ShieldCheck,
+    Clock,
     Tag,
     User
   } from 'lucide-vue-next'
@@ -229,7 +230,6 @@
     { id: 'orderId', label: 'Order ID' },
     { id: 'merchant', label: 'Merchant' },
     { id: 'customer', label: 'Customer' },
-    { id: 'qty', label: 'Quantity' },
     { id: 'stage', label: 'Stage' },
     { id: 'sinceAction', label: 'Since action' },
     { id: 'factory', label: 'Factory' },
@@ -310,15 +310,8 @@
     {
       accessorKey: 'customer',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Customer' }),
-      cell: ({ row }) =>
-        h(CellText, { color: 'secondary' }, () => row.getValue('customer') as string),
+      cell: ({ row }) => h(CellAssignee, { name: row.getValue('customer') as string }),
       meta: { interactive: true }
-    },
-    {
-      accessorKey: 'qty',
-      header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Qty' }),
-      cell: ({ row }) => h(CellText, { color: 'secondary' }, () => String(row.getValue('qty'))),
-      size: 44
     },
     {
       accessorKey: 'stage',
@@ -331,7 +324,14 @@
       accessorKey: 'sinceAction',
       header: ({ column }) => h(DataTableColumnHeader as any, { column, title: 'Since action' }),
       cell: ({ row }) =>
-        h(CellText, { color: 'tertiary' }, () => row.getValue('sinceAction') as string),
+        h(
+          CellIconText,
+          { color: 'tertiary' },
+          {
+            icon: () => h(Clock, { class: 'size-4 shrink-0' }),
+            default: () => row.getValue('sinceAction') as string
+          }
+        ),
       size: 100
     },
     {
