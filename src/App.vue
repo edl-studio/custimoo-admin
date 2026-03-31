@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { computed, inject } from 'vue'
+  import { computed, inject, ref } from 'vue'
   import type { ComputedRef } from 'vue'
+  import { useWindowSize } from '@vueuse/core'
   import type { Order } from '@/data/mock-orders'
   import {
     Bell,
@@ -34,8 +35,40 @@
   import { useSheet } from '@/composables/useSheet'
   import type { SheetState } from '@/composables/useSheet'
 
-  const { sheets, visibleSheets, minimizedSheets, hiddenCount, close, minimize, restore } =
+  const { visibleSheets, minimizedSheets, canReorder, close, minimize, restore, reorderSheet } =
     useSheet()
+
+  // Drag-and-drop reordering
+  const draggingId = ref<string | null>(null)
+
+  function onDragStart(e: DragEvent, id: string) {
+    draggingId.value = id
+    e.dataTransfer!.effectAllowed = 'move'
+    e.dataTransfer!.setData('text/plain', id)
+    // Hide default drag ghost
+    const ghost = document.createElement('div')
+    ghost.style.width = '1px'
+    ghost.style.height = '1px'
+    ghost.style.opacity = '0'
+    document.body.appendChild(ghost)
+    e.dataTransfer!.setDragImage(ghost, 0, 0)
+    requestAnimationFrame(() => ghost.remove())
+  }
+
+  let lastReorderTime = 0
+  const REORDER_COOLDOWN = 300
+
+  function onDragOver(e: DragEvent, overId: string) {
+    if (!draggingId.value || draggingId.value === overId) return
+    const now = Date.now()
+    if (now - lastReorderTime < REORDER_COOLDOWN) return
+    lastReorderTime = now
+    reorderSheet(draggingId.value, overId)
+  }
+
+  function onDragEnd() {
+    draggingId.value = null
+  }
 
   const isStackedSheets = inject<ComputedRef<boolean>>(
     'is-stacked-sheets',
@@ -43,8 +76,28 @@
   )
   const sheetTransition = computed(() => (isStackedSheets.value ? 'sheet-swap' : 'sheet'))
 
+  // Tab bar overflow: ensure min 480px between tab bar left edge and viewport left
+  const { width: windowWidth } = useWindowSize()
+  const TAB_WIDTH = 240
+  const TAB_LIST_WIDTH = 160
+  const MIN_LEFT_SPACE = 480
+  const TAB_BAR_RIGHT_MARGIN = 8
+  const TAB_GAP = 2
+
+  const maxVisibleTabs = computed(() => {
+    const available = windowWidth.value - MIN_LEFT_SPACE - TAB_LIST_WIDTH - TAB_BAR_RIGHT_MARGIN
+    return Math.max(0, Math.floor(available / (TAB_WIDTH + TAB_GAP)))
+  })
+
+  // Tabs shown in the bar (newest first = leftmost); overflow hidden but in "All tabs"
+  const barTabs = computed(() => {
+    const tabs = minimizedSheets.value.slice(-maxVisibleTabs.value)
+    return [...tabs].reverse()
+  })
+
+  // "All tabs" dropdown shows ALL minimized sheets
   const tabItems = computed(() =>
-    sheets.value.map(s => {
+    minimizedSheets.value.map(s => {
       const order = s.data as Order
       return {
         id: order.orderId,
@@ -107,15 +160,19 @@
     <RouterView />
     <template #sheets>
       <TransitionGroup :name="sheetTransition">
-        <SheetContent v-for="(sheet, index) in visibleSheets" :key="sheet.id">
-          <SheetHeader @close="close(sheet.id)">
+        <SheetContent
+          v-for="sheet in visibleSheets"
+          :key="sheet.id"
+          :draggable="canReorder"
+          :class="draggingId === sheet.id && 'opacity-50 scale-[0.98]'"
+          class="transition-[opacity,transform] duration-200"
+          @dragstart="onDragStart($event, sheet.id)"
+          @dragover.prevent="onDragOver($event, sheet.id)"
+          @dragend="onDragEnd"
+          @drop.prevent="onDragEnd"
+        >
+          <SheetHeader :draggable="canReorder" @close="close(sheet.id)">
             <template #leading>
-              <span
-                v-if="hiddenCount > 0 && index === 0"
-                class="mr-1 text-xs text-muted-foreground"
-              >
-                {{ sheets.length - hiddenCount }} of {{ sheets.length }}
-              </span>
               <Button variant="default" size="icon">
                 <Ellipsis />
               </Button>
@@ -144,7 +201,7 @@
   <FloatingTabBar>
     <TransitionGroup name="tab">
       <FloatingTab
-        v-for="sheet in minimizedSheets"
+        v-for="sheet in barTabs"
         :key="sheet.id"
         :id="getSheetId(sheet)"
         :label="getSheetLabel(sheet)"
@@ -168,32 +225,30 @@
 </template>
 
 <style>
-  /* Sheet enter: slide in from right with width expansion */
-  .sheet-enter-from,
-  .sheet-leave-to {
-    width: 0 !important;
-    margin-left: 0 !important;
+  /* Sheet enter: slide up with subtle scale */
+  .sheet-enter-from {
     opacity: 0;
-    border-color: transparent !important;
+    transform: translateY(12px) scale(0.98);
   }
 
   .sheet-enter-active {
     transition:
-      width 350ms cubic-bezier(0.16, 1, 0.3, 1),
-      margin-left 350ms cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 250ms ease 80ms,
-      border-color 200ms ease 80ms;
-    overflow: hidden !important;
+      opacity 250ms ease,
+      transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Sheet leave: quick fade then smooth collapse */
+  /* Sheet leave: slide out to the right */
+  .sheet-leave-to {
+    transform: translateX(calc(100% + 8px));
+    opacity: 0;
+  }
+
   .sheet-leave-active {
+    position: absolute;
+    z-index: -1;
     transition:
-      width 280ms cubic-bezier(0.4, 0, 0.2, 1) 40ms,
-      margin-left 280ms cubic-bezier(0.4, 0, 0.2, 1) 40ms,
-      opacity 140ms ease,
-      border-color 140ms ease;
-    overflow: hidden !important;
+      transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 120ms ease;
   }
 
   /* Sibling sheets reposition smoothly */

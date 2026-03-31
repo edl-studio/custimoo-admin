@@ -5,6 +5,7 @@
   import { cn } from '@/lib/utils'
 
   const props = defineProps<{
+    draggable?: boolean
     class?: HTMLAttributes['class']
   }>()
 
@@ -15,8 +16,13 @@
 
 <template>
   <div
+    :draggable="draggable"
     :class="
-      cn('flex h-16 shrink-0 items-center justify-between border-b border-border px-4', props.class)
+      cn(
+        'flex h-16 shrink-0 items-center justify-between border-b border-border px-4',
+        draggable && 'cursor-grab active:cursor-grabbing',
+        props.class
+      )
     "
   >
     <!-- Leading actions -->

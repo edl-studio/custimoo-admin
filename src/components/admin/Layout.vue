@@ -64,7 +64,7 @@
       <!-- Content row: page + sheets -->
       <div ref="contentRowRef" class="flex min-h-0 flex-1">
         <main
-          class="min-w-0 flex-1 overflow-y-auto rounded-xl border border-border bg-card shadow-[0_1px_3px_0_rgba(0,0,0,0.04),0_1px_2px_-1px_rgba(0,0,0,0.03)]"
+          class="min-w-0 flex-1 overflow-y-auto rounded-xl border border-border bg-card shadow-[0_1px_3px_0_rgba(0,0,0,0.04),0_1px_2px_-1px_rgba(0,0,0,0.03)] transition-[flex-basis] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]"
         >
           <slot />
         </main>
