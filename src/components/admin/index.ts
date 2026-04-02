@@ -1,4 +1,6 @@
 export { default as AdminAvatar } from './AdminAvatar.vue'
+export { default as BulkActionBar } from './BulkActionBar.vue'
+export type { BulkActionMenuItem } from './BulkActionBar.vue'
 export { default as FloatingTab } from './FloatingTab.vue'
 export { default as FloatingTabList } from './FloatingTabList.vue'
 export type { FloatingTabItem } from './FloatingTabList.vue'
