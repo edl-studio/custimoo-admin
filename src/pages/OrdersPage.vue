@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { computed, h, ref } from 'vue'
   import type { ColumnDef } from '@tanstack/vue-table'
+  import { useVueTable } from '@tanstack/vue-table'
   import {
+    ArrowRightLeft,
     Building2,
     Calendar,
     CalendarClock,
@@ -10,6 +12,7 @@
     Flag,
     Layers,
     LayoutGrid,
+    PauseCircle,
     PenLine,
     Plus,
     FileText,
@@ -17,9 +20,12 @@
     ShieldCheck,
     Clock,
     Tag,
-    User
+    Trash2,
+    User,
+    UserPlus
   } from 'lucide-vue-next'
   import {
+    BulkActionBar,
     ChecklistPopover,
     ColumnPopover,
     DatePresetPopover,
@@ -41,6 +47,7 @@
     OrderTypeBadge,
     StageBadge
   } from '@/components/admin'
+  import type { BulkActionMenuItem } from '@/components/admin'
   import type {
     ChecklistOption,
     ColumnItem,
@@ -56,6 +63,22 @@
 
   const { orders } = useOrders()
   const { open: openSheet, isOpen: isSheetOpen } = useSheet()
+
+  const dataTableRef = ref<{ table: ReturnType<typeof useVueTable<Order>> } | null>(null)
+
+  const selectedCount = computed(
+    () => dataTableRef.value?.table.getSelectedRowModel().rows.length ?? 0
+  )
+
+  function clearSelection() {
+    dataTableRef.value?.table.toggleAllRowsSelected(false)
+  }
+
+  const bulkMenuItems: BulkActionMenuItem[] = [
+    { label: 'Change order step', icon: ArrowRightLeft, onClick: () => {} },
+    { label: 'Put on hold', icon: PauseCircle, onClick: () => {} },
+    { label: 'Delete order', icon: Trash2, variant: 'destructive', onClick: () => {} }
+  ]
 
   const activeTab = ref<'all' | 'invoice' | 'factory'>('all')
   const searchQuery = ref('')
@@ -584,6 +607,7 @@
     <!-- Orders table -->
     <div class="p-6">
       <DataTable
+        ref="dataTableRef"
         :columns="columns as any"
         :data="filteredOrders"
         :pinned-columns="['select', 'orderId']"
@@ -591,5 +615,22 @@
         @row-click="handleRowClick"
       />
     </div>
+
+    <!-- Bulk action bar -->
+    <BulkActionBar
+      :count="selectedCount"
+      item-label="orders"
+      :menu-items="bulkMenuItems"
+      @close="clearSelection"
+    >
+      <Button variant="default">
+        <UserPlus class="size-4" />
+        Assign order admin
+      </Button>
+      <Button variant="default">
+        <Download class="size-4" />
+        Export
+      </Button>
+    </BulkActionBar>
   </div>
 </template>
