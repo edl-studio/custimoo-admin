@@ -25,6 +25,7 @@
     FloatingTab,
     FloatingTabList,
     FloatingTabBar,
+    OrderSheet,
     SheetContent,
     SheetHeader,
     SidebarNav,
@@ -187,11 +188,35 @@
             </template>
           </SheetHeader>
 
-          <div class="flex-1 overflow-y-auto p-6">
-            <h2 class="text-lg font-semibold text-foreground">
-              Order {{ (sheet.data as Order).orderId }}
-            </h2>
-          </div>
+          <OrderSheet>
+            <template #banner>
+              <!-- Banner slot — render conditionally when needed -->
+            </template>
+
+            <template #header>
+              <div class="px-4 py-4">
+                <h2 class="text-lg font-semibold text-foreground">
+                  Order #{{ (sheet.data as Order).orderId }}
+                </h2>
+              </div>
+            </template>
+
+            <template #details>
+              <div class="p-4 text-sm text-muted-foreground">Order details content</div>
+            </template>
+
+            <template #products>
+              <div class="p-4 text-sm text-muted-foreground">Products content</div>
+            </template>
+
+            <template #files>
+              <div class="p-4 text-sm text-muted-foreground">Files content</div>
+            </template>
+
+            <template #tasks>
+              <div class="p-4 text-sm text-muted-foreground">Tasks content</div>
+            </template>
+          </OrderSheet>
         </SheetContent>
       </TransitionGroup>
     </template>
